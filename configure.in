@@ -2,7 +2,7 @@
 dnl -*- m4 -*-
 dnl Process this file with autoconf to produce a configure script.
 
-AC_REVISION($Id: configure.in,v 1.13 2000/10/20 00:13:30 jimg Exp $)
+AC_REVISION($Id: configure.in,v 1.14 2003/02/10 22:42:05 jimg Exp $)
 AC_INIT(MATArray.cc)
 AC_CONFIG_HEADER(config_mat.h)
 AC_CONFIG_AUX_DIR(../../etc)
@@ -29,6 +29,7 @@ dnl LDFLAGS="-gstabs $LDFLAGS"
 
 dnl Checks for programs.
 AC_PROG_CC
+AC_PROG_CXX
 AC_PROG_AWK
 AC_PROG_LN_S
 AC_PROG_RANLIB
@@ -58,9 +59,6 @@ dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
 
 DODS_CHECK_SIZES
-
-DODS_LIBS
-
 DODS_OS
 
 DODS_MATLAB
@@ -70,16 +68,17 @@ dnl c++ code. This has no effect with matlab 4.
 
 AC_DEFINE(V4_COMPAT)
 
+dnl Checks for specific libraries
+AC_CHECK_LIB(pthread, pthread_testcancel, 
+	[LIBS="$LIBS -lpthread"
+	 AC_DEFINE(_REENTRANT)])
+
 DODS_COMPRESSION_LIB
 DODS_RX_LIB
 DODS_WWW_LIB
-dnl DODS_TCL_LIB
-dnl DODS_TK_LIB
 
 DODS_EFENCE
-
 DODS_DBNEW
-
 DODS_DEBUG_OPTION
 
 AC_OUTPUT(Makefile)

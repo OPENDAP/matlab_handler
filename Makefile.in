@@ -1,5 +1,5 @@
 
-# $Id: Makefile.in,v 1.22 2000/10/20 00:13:30 jimg Exp $
+# $Id: Makefile.in,v 1.23 2003/02/10 22:42:05 jimg Exp $
 
 @SET_MAKE@
 
@@ -51,8 +51,9 @@ INSTALLMAN = man
 SHELL = /bin/sh
 srcdir = @srcdir@
 version = @VERSION@
-basedir = math-dods
+basedir = mat-dods
 dir = $(basedir)-$(version)
+host = @host@
 
 COMPONENT_NAME = DODS Matlab Server
 
@@ -99,7 +100,7 @@ ALLSRCS = $(SSRCS)
 all: mat_das mat_dds mat_dods 
 
 mat_das:$(DASOBJS) 
-	$(CXX) $(LDFLAGS) -o mat_das $(DASOBJS) $(LIBS)	
+	$(CXX) $(LDFLAGS) -o mat_das $(DASOBJS) $(LIBS)
 
 mat_dds:$(DDSOBJS) 
 	$(CXX) $(LDFLAGS) -o mat_dds $(DDSOBJS)  $(LIBS)
@@ -107,8 +108,8 @@ mat_dds:$(DDSOBJS)
 mat_dods:$(SRVOBJS) 
 	$(CXX) $(LDFLAGS) -o mat_dods $(SRVOBJS) $(LIBS)
 
-configure: configure.in
-	autoconf --localdir=$(DODS_ROOT)/etc
+configure: configure.in ../../etc/aclocal.m4
+	autoconf --include=$(DODS_ROOT)etc
 
 Makefile: Makefile.in
 	if [ -x ./config.status ]; \
@@ -159,24 +160,31 @@ distclean:
 tar:
 	-rm -r config.cache config.log config.status
 	cd $(DODS_ROOT)/.. && \
-	$(TAR) --exclude '*/old' --exclude '*/.#*' --exclude '*/CVS' \
+	$(TAR) --exclude 'old' --exclude '.#*' --exclude 'CVS' \
+	    --exclude '.flc' --exclude '.snprj' --exclude 'Makefile' \
 	    --gzip --create --dereference --file DODS-$(dir).tar.gz \
 	    DODS/src/$(dir)
+
+# Creates tar files for binary distributions.
+.PHONY: binary-tar
+binary-tar:
+	cd $(DODS_ROOT)/.. && \
+	$(TAR) --gzip --create \
+	    --file DODS-ml-server-$(version)-$(host).tar.gz \
+            DODS/NEWS \
+            DODS/docs/README-ml-server \
+	    DODS/etc/mat_das \
+	    DODS/etc/mat_dds \
+	    DODS/etc/mat_dods
 
 .PHONY: update-version
 update-version: check-version
 	@echo "Version is: `cat version.h`"
-	if [ ! -d ../$(dir) ]; then \
-	    mv ../math-dods* ../$(dir);\
-	fi
-	touch $(DODS_ROOT)/VERSION; cat $(DODS_ROOT)/VERSION | \
-	  $(AWK) ' \
-	    BEGIN { found = 0 } \
-	    { if ( $$0 ~ /^$(COMPONENT_NAME):/) \
-	        { print "$(COMPONENT_NAME): $(version)"; found = 1 } \
-	      else { print $$0 } } \
-	    END { if ( ! found) { print "$(COMPONENT_NAME): $(version)" } \
-	        }' > $(DODS_ROOT)/VERSION
+	if test ! -d ../$(dir); then mv ../$(basedir)* ../$(dir); fi
+	if test ! -f $(DODS_ROOT)VERSION; then touch $(DODS_ROOT)VERSION; fi
+	$(etcdir)/update-manifest.pl "$(COMPONENT_NAME)" $(version) \
+		< $(DODS_ROOT)VERSION > tmp.dods.manifest
+	mv tmp.dods.manifest $(DODS_ROOT)VERSION
 
 # Compare the version encoded in this Makefile (set by configure) with the
 # version in version.h. The version make variable is set up near the top of
@@ -212,54 +220,55 @@ depend:
 mat_das.o: mat_das.cc config_mat.h ../../include/DAS.h \
  ../../include/AttrTable.h ../../include/Error.h \
  ../../include/cgi_util.h ../../include/Connect.h ../../include/DDS.h \
- ../../include/BaseType.h ../../include/Clause.h ../../include/expr.h \
- ../../include/RValue.h ../../include/debug.h ../../include/util.h \
+ ../../include/BaseType.h ../../include/InternalErr.h \
+ ../../include/Clause.h ../../include/expr.h ../../include/RValue.h \
+ ../../include/util.h ../../include/Byte.h \
+ ../../include/dods-datatypes.h ../../include/Int16.h \
+ ../../include/UInt16.h ../../include/Int32.h ../../include/UInt32.h \
+ ../../include/Float32.h ../../include/Float64.h ../../include/Str.h \
+ ../../include/dods-limits.h ../../include/Url.h ../../include/Array.h \
+ ../../include/Vector.h ../../include/List.h ../../include/Structure.h \
+ ../../include/Constructor.h ../../include/Sequence.h \
+ ../../include/Grid.h ../../include/DODSFilter.h
+mat_dds.o: mat_dds.cc config_mat.h ../../include/Error.h \
+ ../../include/DDS.h ../../include/BaseType.h \
+ ../../include/InternalErr.h ../../include/Clause.h \
+ ../../include/expr.h ../../include/RValue.h ../../include/cgi_util.h \
+ ../../include/Connect.h ../../include/DAS.h ../../include/AttrTable.h \
+ ../../include/util.h ../../include/Byte.h \
+ ../../include/dods-datatypes.h ../../include/Int16.h \
+ ../../include/UInt16.h ../../include/Int32.h ../../include/UInt32.h \
+ ../../include/Float32.h ../../include/Float64.h ../../include/Str.h \
+ ../../include/dods-limits.h ../../include/Url.h ../../include/Array.h \
+ ../../include/Vector.h ../../include/List.h ../../include/Structure.h \
+ ../../include/Constructor.h ../../include/Sequence.h \
+ ../../include/Grid.h ../../include/DODSFilter.h
+mat_dods.o: mat_dods.cc config_mat.h ../../include/cgi_util.h \
+ ../../include/Connect.h ../../include/DAS.h ../../include/AttrTable.h \
+ ../../include/Error.h ../../include/DDS.h ../../include/BaseType.h \
+ ../../include/InternalErr.h ../../include/Clause.h \
+ ../../include/expr.h ../../include/RValue.h ../../include/util.h \
  ../../include/Byte.h ../../include/dods-datatypes.h \
  ../../include/Int16.h ../../include/UInt16.h ../../include/Int32.h \
  ../../include/UInt32.h ../../include/Float32.h \
  ../../include/Float64.h ../../include/Str.h \
  ../../include/dods-limits.h ../../include/Url.h ../../include/Array.h \
  ../../include/Vector.h ../../include/List.h ../../include/Structure.h \
- ../../include/Sequence.h ../../include/Grid.h \
- ../../include/DODSFilter.h
-mat_dds.o: mat_dds.cc config_mat.h ../../include/Error.h \
- ../../include/DDS.h ../../include/BaseType.h ../../include/Clause.h \
- ../../include/expr.h ../../include/RValue.h ../../include/debug.h \
- ../../include/cgi_util.h ../../include/Connect.h ../../include/DAS.h \
- ../../include/AttrTable.h ../../include/util.h ../../include/Byte.h \
- ../../include/dods-datatypes.h ../../include/Int16.h \
- ../../include/UInt16.h ../../include/Int32.h ../../include/UInt32.h \
- ../../include/Float32.h ../../include/Float64.h ../../include/Str.h \
- ../../include/dods-limits.h ../../include/Url.h ../../include/Array.h \
- ../../include/Vector.h ../../include/List.h ../../include/Structure.h \
- ../../include/Sequence.h ../../include/Grid.h \
- ../../include/DODSFilter.h
-mat_dods.o: mat_dods.cc config_mat.h ../../include/cgi_util.h \
- ../../include/Connect.h ../../include/DAS.h ../../include/AttrTable.h \
- ../../include/DDS.h ../../include/BaseType.h ../../include/Clause.h \
- ../../include/expr.h ../../include/RValue.h ../../include/debug.h \
- ../../include/Error.h ../../include/util.h ../../include/Byte.h \
- ../../include/dods-datatypes.h ../../include/Int16.h \
- ../../include/UInt16.h ../../include/Int32.h ../../include/UInt32.h \
- ../../include/Float32.h ../../include/Float64.h ../../include/Str.h \
- ../../include/dods-limits.h ../../include/Url.h ../../include/Array.h \
- ../../include/Vector.h ../../include/List.h ../../include/Structure.h \
- ../../include/Sequence.h ../../include/Grid.h \
- ../../include/DODSFilter.h
+ ../../include/Constructor.h ../../include/Sequence.h \
+ ../../include/Grid.h ../../include/DODSFilter.h
 MATArray.o: MATArray.cc config_mat.h ../../include/cgi_util.h \
  ../../include/Connect.h ../../include/DAS.h ../../include/AttrTable.h \
- ../../include/DDS.h ../../include/BaseType.h ../../include/Clause.h \
- ../../include/expr.h ../../include/RValue.h ../../include/debug.h \
- ../../include/Error.h ../../include/util.h ../../include/Byte.h \
- ../../include/dods-datatypes.h ../../include/Int16.h \
- ../../include/UInt16.h ../../include/Int32.h ../../include/UInt32.h \
- ../../include/Float32.h ../../include/Float64.h ../../include/Str.h \
+ ../../include/Error.h ../../include/DDS.h ../../include/BaseType.h \
+ ../../include/InternalErr.h ../../include/Clause.h \
+ ../../include/expr.h ../../include/RValue.h ../../include/util.h \
+ ../../include/Byte.h ../../include/dods-datatypes.h \
+ ../../include/Int16.h ../../include/UInt16.h ../../include/Int32.h \
+ ../../include/UInt32.h ../../include/Float32.h \
+ ../../include/Float64.h ../../include/Str.h \
  ../../include/dods-limits.h ../../include/Url.h ../../include/Array.h \
  ../../include/Vector.h ../../include/List.h ../../include/Structure.h \
- ../../include/Sequence.h ../../include/Grid.h MATArray.h \
- /usr/local/matlab/extern/include/mat.h \
- /usr/local/matlab/extern/include/matrix.h \
- /usr/local/matlab/extern/include/tmwtypes.h
+ ../../include/Constructor.h ../../include/Sequence.h \
+ ../../include/Grid.h MATArray.h
 MATByte.o: MATByte.cc config_mat.h ../../include/InternalErr.h \
  ../../include/Error.h MATByte.h ../../include/Byte.h \
  ../../include/dods-datatypes.h ../../include/BaseType.h
@@ -267,7 +276,8 @@ MATFloat64.o: MATFloat64.cc config_mat.h ../../include/InternalErr.h \
  ../../include/Error.h MATFloat64.h ../../include/Float64.h \
  ../../include/dods-datatypes.h ../../include/BaseType.h MatSeq.h
 MATGrid.o: MATGrid.cc config_mat.h MATGrid.h ../../include/Grid.h \
- ../../include/BaseType.h
+ ../../include/BaseType.h ../../include/InternalErr.h \
+ ../../include/Error.h ../../include/Constructor.h
 MATInt32.o: MATInt32.cc config_mat.h ../../include/InternalErr.h \
  ../../include/Error.h MATInt32.h ../../include/Int32.h \
  ../../include/dods-datatypes.h ../../include/BaseType.h
@@ -275,10 +285,10 @@ MATList.o: MATList.cc config_mat.h ../../include/InternalErr.h \
  ../../include/Error.h MATList.h ../../include/List.h \
  ../../include/dods-limits.h ../../include/Vector.h \
  ../../include/BaseType.h ../../include/DDS.h ../../include/Clause.h \
- ../../include/expr.h ../../include/RValue.h ../../include/debug.h
+ ../../include/expr.h ../../include/RValue.h
 MATSequence.o: MATSequence.cc config_mat.h ../../include/InternalErr.h \
  ../../include/Error.h MATSequence.h ../../include/Sequence.h \
- ../../include/BaseType.h
+ ../../include/BaseType.h ../../include/Constructor.h
 MATStr.o: MATStr.cc config_mat.h ../../include/dods-datatypes.h \
  ../../include/InternalErr.h ../../include/Error.h MATStr.h \
  ../../include/Str.h ../../include/dods-limits.h \
@@ -286,8 +296,8 @@ MATStr.o: MATStr.cc config_mat.h ../../include/dods-datatypes.h \
 MATStructure.o: MATStructure.cc config_mat.h \
  ../../include/InternalErr.h ../../include/Error.h MATStructure.h \
  ../../include/Structure.h ../../include/BaseType.h \
- ../../include/DDS.h ../../include/Clause.h ../../include/expr.h \
- ../../include/RValue.h ../../include/debug.h
+ ../../include/Constructor.h ../../include/DDS.h \
+ ../../include/Clause.h ../../include/expr.h ../../include/RValue.h
 MATUrl.o: MATUrl.cc config_mat.h ../../include/InternalErr.h \
  ../../include/Error.h MATUrl.h ../../include/Url.h \
  ../../include/dods-limits.h ../../include/BaseType.h \

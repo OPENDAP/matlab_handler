@@ -10,7 +10,7 @@
 
 #include "config_mat.h"
 
-static char rcsid[] not_used ={"$Id: MatLabUtil.cc,v 1.9 2000/10/10 00:03:07 jimg Exp $"};
+static char rcsid[] not_used ={"$Id: MatLabUtil.cc,v 1.10 2003/02/10 22:42:05 jimg Exp $"};
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,8 +25,10 @@ static char rcsid[] not_used ={"$Id: MatLabUtil.cc,v 1.9 2000/10/10 00:03:07 jim
 #include "DAS.h"
 #include "DDS.h"
 #include "MATArray.h"
+#include "util.h"
 #include "cgi_util.h"
-#include "mat.h"
+
+#include <mat.h>
 
 static char Msgt[255];
 
@@ -68,9 +70,9 @@ read_descriptors(DDS &dds_table, string filename, string *err_msg)
     // dataset name
     dds_table.set_dataset_name(name_path(filename));
  
-    fp = matOpen((char *)(filename.data()), "r");
+    fp = matOpen(filename.c_str(), "r");
     if (fp == NULL) {
-	sprintf(Msgt, "mat_dds: Could not open file %s", filename.data());
+	sprintf(Msgt, "mat_dds: Could not open file %s", filename.c_str());
 	ErrMsgT(Msgt);
 	*err_msg = "\"" + (string)Msgt + "\""; 
 	return false;
@@ -111,10 +113,10 @@ read_attributes(DAS &das_table, string filename, string *err_msg)
 
     attr_table = das_table.add_table("MAT_GLOBAL", new AttrTable);
     
-    fp = matOpen((char *)filename.c_str(), "r");
+    fp = matOpen(filename.c_str(), "r");
 
     if (fp == NULL){
-	sprintf(Msgt, "mat_das: Could not open file %s", filename.data());
+	sprintf(Msgt, "mat_das: Could not open file %s", filename.c_str());
 	ErrMsgT(Msgt);
 	*err_msg = "\"" + (string)Msgt + " \"";
 	return false;
@@ -152,6 +154,37 @@ read_attributes(DAS &das_table, string filename, string *err_msg)
 }
 
 // $Log: MatLabUtil.cc,v $
+// Revision 1.10  2003/02/10 22:42:05  jimg
+// Merged with 3.2.6.
+//
+// Revision 1.9.4.5  2002/06/21 00:31:40  jimg
+// I changed many files throughout the source so that the 'make World' build
+// works with the new versions of Connect and libdap++ that use libcurl.
+// Most of these changes are either to Makefiles, configure scripts or to
+// the headers included by various C++ files. In a few places the oddities
+// of libwww forced us to hack up code and I've undone those and some of the
+// clients had code that supported libwww's generous tracing capabilities
+// (that's one part of libwww I'll miss); I had to remove support for that.
+// Once this code compiles and more work is done on Connect, I'll return to
+// each of these changes and polish them.
+//
+// Revision 1.9.4.4  2002/05/10 20:29:31  jimg
+// Removed bad uses of static_cast where const_cast was meant. It turns out we
+// don't need to cast away the const (passing const char * to the Matlab
+// libraries) so I just removed the casts.
+//
+// Revision 1.9.4.3  2002/05/10 20:24:54  jimg
+// I found and fixed several calls to string::data(). In each case we should
+// have been using c_str(). This will fix problems that are otherwise very
+// hard to diagnose.
+//
+// Revision 1.9.4.2  2002/04/05 16:19:08  edavis
+// Changed include for "mat.h" to <mat.h> so dependencies wouldn't get
+// included in the Makefile.in depend list.
+//
+// Revision 1.9.4.1  2001/10/09 22:35:49  jimg
+// Removed
+//
 // Revision 1.9  2000/10/10 00:03:07  jimg
 // Moved CVS Logs to the end of each file.
 // Added code to handle exceptions thrown by the dap library.

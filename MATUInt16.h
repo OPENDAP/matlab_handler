@@ -27,6 +27,12 @@ public:
 };
 
 // $Log: MATUInt16.h,v $
+// Revision 1.4  2003/02/10 22:42:05  jimg
+// Merged with 3.2.6.
+//
+// Revision 1.3.4.1  2001/10/09 22:35:49  jimg
+// Removed
+//
 // Revision 1.3  2000/10/10 00:03:07  jimg
 // Moved CVS Logs to the end of each file.
 // Added code to handle exceptions thrown by the dap library.

@@ -10,15 +10,15 @@ testing software DejaGNU to run the makefile's check target.
 
 3) Type `make install' to install the new library. 
 
-4) To install the data server you need to copy the four executables (one
-script and three binary programs) named `nph-mat', `mat_das', `mat_dds' and
-`mat_dods' to your http server's CGI directory. For many UNIX computers, 
-this will be named cgi-bin and will reside within the http server's home
-directory (e.g., on my system the cgi binary directory is called
-/usr/local/etc/httpd/cgi-bin). You can find out the name of this directory if
-you don't know it by looking in the http server's srm.conf configuration file
-(which will be located in a directory called `conf' within the http server's
-home directory. 
+4) BE SURE TO READ *IMPORTANT NOTE* BELOW. To install the data server you
+need to copy the four executables (one script and three binary programs)
+named `nph-mat', `mat_das', `mat_dds' and `mat_dods' to your http server's
+CGI directory. For many UNIX computers, this will be named cgi-bin and will
+reside within the http server's home directory (e.g., on my system the cgi
+binary directory is called /usr/local/etc/httpd/cgi-bin). You can find out
+the name of this directory if you don't know it by looking in the http
+server's srm.conf configuration file (which will be located in a directory
+called `conf' within the http server's home directory.
 
   Note that the DODS server scripts use specialized versions of
   several Perl modules, shipped with DODS.  These libraries must be
@@ -29,6 +29,42 @@ home directory.
 
 For information about installing secure DODS servers, see the file SECURITY
 in DODS_ROOT.
+
+IMPORTANT NOTE: Matlab 6 now apparently ships with shared object libraries
+(this is the case on Linux). If after installing your server does not work
+and you see an entry in the httpd error log that mentions that libmat.so
+could not be found, you must edit the DODS_ROOT/etc/nph-dods perl script so
+that your computer's copies of the Matlab libraries can be found by the
+server components. It's pretty easy. 
+
+In the file DODS_ROOT/etc/nph-dods, look for the line that starts with
+`$ENV{"JGOFS_METHOD"}' and add the following on the following line:
+$ENV{"LD_LIBRARY_PATH"} = "$ENV{\"LD_LIBRARY_PATH\"}:<path to libraries>";
+where <path to libraries> is the full pathname to your computer's copies of
+the matlab libraries. On my computer this is:
+/usr/local/matlab6/extern/lib/glnx86/. 
+
+It's pretty easy to find this directory. First go to the place where you
+installed matlab, then look for `extern/lib/'. There will typically be one
+directory inside of lib (if there's more, choose the one whose name matches
+your type of computer) and it will have the library file libmat.so along with
+some others. You want to set <path to libraries> to the pathname of the
+directory which contains libmat.so.
+
+Why this works: Setting the environment variable LD_LIBRARY_PATH tells the
+run time linker to look in some `extra' places for shared object libraries. The
+run time linker always looks in some standard places such as /lib and
+/usr/lib. Since the matlab libraries aren't in those places, we use the
+environment variable to help it find them.
+
+SUPPORTED VERSIONS
+
+As of this version 3.2.3 of the server, we will provide binaries for ML 6
+only. However, it's pretty easy to build for ML 5. First, try building as for
+ML 6 (run configure, then make then `male install'). If that fails, run
+configure and add `-lmi' to the LIBS in the Makefile. Then run make and `make
+install'. The comment above about shared libraries applies to some matlab 5
+installations, too. Use the same fix to nph-dods.
 
 -----------------------------------------------------------------------------
 
@@ -56,6 +92,9 @@ You can check the version of perl by typing:
     perl -v
 
 You need Perl version 5.001 or greater.
+
+UPDATE: The server builds and works with Matlab 6 on Red Hat 7.1. It will
+probably work on other combinations of 2.2.x and 2.4.x kernels. 4/5/2002 jhrg
 
 ------------------------------------------------------------------------------
 

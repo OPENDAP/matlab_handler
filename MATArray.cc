@@ -9,7 +9,7 @@
 
 #include "config_mat.h"
 
-static char rcsid[] not_used ={"$Id: MATArray.cc,v 1.8 2000/10/10 00:03:07 jimg Exp $"};
+static char rcsid[] not_used ={"$Id: MATArray.cc,v 1.9 2003/02/10 22:42:05 jimg Exp $"};
 
 #ifdef __GNUG__
 #pragma implementation
@@ -24,9 +24,11 @@ static char rcsid[] not_used ={"$Id: MATArray.cc,v 1.8 2000/10/10 00:03:07 jimg 
 #include <string>
 
 #include "cgi_util.h"
+#include "dods-datatypes.h"
 #include "Error.h"
 #include "MATArray.h"
-#include "mat.h"
+
+#include <mat.h>
 
 static char Msgt[255]; // Used by ErrMsgT
 
@@ -66,7 +68,7 @@ MATArray::read(const string &dataset)
 
     fp = matOpen((char *)dataset.c_str(), "r");
     if (fp == NULL){
-	sprintf(Msgt, "MATArray: Could not open file %s", dataset.data());
+	sprintf(Msgt, "MATArray: Could not open file %s", dataset.c_str());
 	ErrMsgT(Msgt);
 	throw Error(cannot_read_file, "Could not open dataset.");
     }
@@ -85,17 +87,17 @@ MATArray::read(const string &dataset)
 
     if ((pos = name().find("_Real")) != name().npos) {    // get real part of the complex  matrix  
 	string Rname = name().substr(0,pos);
-	mp = matGetMatrix(fp,Rname.data());
+	mp = matGetMatrix(fp,Rname.c_str());
 	DataPtr = mxGetPr(mp); 
     }
     else{
 	if ((pos = name().find("_Imaginary")) != name().npos) { // get Img part of the complex matrix  
 	    string Iname = name().substr(0,pos);
-	    mp = matGetMatrix(fp,Iname.data());
+	    mp = matGetMatrix(fp,Iname.c_str());
 	    DataPtr = mxGetPi(mp); 
 	}
 	else{
-	    mp = matGetMatrix(fp,name().data());
+	    mp = matGetMatrix(fp,name().c_str());
 	    DataPtr = mxGetPr(mp); // get the matrix structure
 	}
     }
@@ -139,6 +141,32 @@ MATArray::read(const string &dataset)
 }
 
 // $Log: MATArray.cc,v $
+// Revision 1.9  2003/02/10 22:42:05  jimg
+// Merged with 3.2.6.
+//
+// Revision 1.8.4.4  2002/06/21 00:31:40  jimg
+// I changed many files throughout the source so that the 'make World' build
+// works with the new versions of Connect and libdap++ that use libcurl.
+// Most of these changes are either to Makefiles, configure scripts or to
+// the headers included by various C++ files. In a few places the oddities
+// of libwww forced us to hack up code and I've undone those and some of the
+// clients had code that supported libwww's generous tracing capabilities
+// (that's one part of libwww I'll miss); I had to remove support for that.
+// Once this code compiles and more work is done on Connect, I'll return to
+// each of these changes and polish them.
+//
+// Revision 1.8.4.3  2002/05/10 20:24:54  jimg
+// I found and fixed several calls to string::data(). In each case we should
+// have been using c_str(). This will fix problems that are otherwise very
+// hard to diagnose.
+//
+// Revision 1.8.4.2  2002/04/05 16:19:08  edavis
+// Changed include for "mat.h" to <mat.h> so dependencies wouldn't get
+// included in the Makefile.in depend list.
+//
+// Revision 1.8.4.1  2001/10/09 22:35:49  jimg
+// Removed
+//
 // Revision 1.8  2000/10/10 00:03:07  jimg
 // Moved CVS Logs to the end of each file.
 // Added code to handle exceptions thrown by the dap library.
