@@ -1,5 +1,5 @@
 /*
-  Copyright 1996 The University of Rhode Island and The Massachusetts
+  Copyright 1996,1997 The University of Rhode Island and The Massachusetts
   Institute of Technology
 
   Portions of this software were developed by the Graduate School of
@@ -38,6 +38,10 @@
 //
 
 // $Log: MatLabUtil.cc,v $
+// Revision 1.4  1997/05/01 18:35:59  jimg
+// Added configureation header.
+// Merged changes from interim 2.1.2 version onto main trunk.
+//
 // Revision 1.3  1996/12/16 22:32:55  reza
 // Made array indices always consistent (i.e. Row, Column).
 //
@@ -46,10 +50,8 @@
 //
 // Revision 1.1  1996/10/31 14:43:40  reza
 // First release of DODS-matlab servers.
-//
-//
 
-static char rcsid[]={"$Id: MatLabUtil.cc,v 1.3 1996/12/16 22:32:55 reza Exp $"};
+static char rcsid[]={"$Id: MatLabUtil.cc,v 1.4 1997/05/01 18:35:59 jimg Exp $"};
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -58,6 +60,7 @@ static char rcsid[]={"$Id: MatLabUtil.cc,v 1.3 1996/12/16 22:32:55 reza Exp $"};
 #include <assert.h>
 #include <iostream.h>
 
+#include "config_mat.h"
 #include "DAS.h"
 #include "DDS.h"
 #include "MATArray.h"

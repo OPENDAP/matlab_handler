@@ -1,5 +1,5 @@
 /*
-  Copyright 1996 The University of Rhode Island and The Massachusetts
+  Copyright 1996,1997 The University of Rhode Island and The Massachusetts
   Institute of Technology
 
   Portions of this software were developed by the Graduate School of
@@ -37,18 +37,20 @@
 // ReZa 9/25/96
 
 // $Log: MATStructure.cc,v $
+// Revision 1.2  1997/05/01 18:35:53  jimg
+// Added configureation header.
+// Merged changes from interim 2.1.2 version onto main trunk.
+//
 // Revision 1.1  1996/10/31 14:43:34  reza
 // First release of DODS-matlab servers.
-//
-//
-//
 
-static char rcsid[]={"$Id: MATStructure.cc,v 1.1 1996/10/31 14:43:34 reza Exp $"};
+static char rcsid[]={"$Id: MATStructure.cc,v 1.2 1997/05/01 18:35:53 jimg Exp $"};
 
 #ifdef _GNUG_
 #pragma implementation
 #endif
 
+#include "config_mat.h"
 #include "MATStructure.h"
 
 Structure *

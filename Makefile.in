@@ -1,5 +1,5 @@
 
-# $Id: Makefile.in,v 1.3 1996/11/13 22:37:04 jimg Exp $
+# $Id: Makefile.in,v 1.4 1997/05/01 18:35:58 jimg Exp $
 
 @SET_MAKE@
 
@@ -106,11 +106,10 @@ check:
 	echo "No tests"
 
 install: all
-	$(INSTALL_PROGRAM) mat_das $(etcdir)
-	$(INSTALL_PROGRAM) mat_dds $(etcdir)
-	$(INSTALL_PROGRAM) mat_dods $(etcdir)
+	$(INSTALL_PROGRAM) -s mat_das $(etcdir)
+	$(INSTALL_PROGRAM) -s mat_dds $(etcdir)
+	$(INSTALL_PROGRAM) -s mat_dods $(etcdir)
 	$(INSTALL_PROGRAM) nph-mat $(etcdir)
-	$(STRIP) $(etcdir)/mat_das $(etcdir)/mat_dds $(etcdir)/mat_dods
 
 clean:	
 	-rm -f *.o *.sum *.log *~ core

@@ -11,9 +11,13 @@
 // ReZa 9/25/96
 
 /* $Log: MATSequence.h,v $
-/* Revision 1.2  1997/01/15 16:42:11  reza
-/* Added (array to) sequence server.
+/* Revision 1.3  1997/05/01 18:35:50  jimg
+/* Added configureation header.
+/* Merged changes from interim 2.1.2 version onto main trunk.
 /*
+ * Revision 1.2  1997/01/15 16:42:11  reza
+ * Added (array to) sequence server.
+ *
  * Revision 1.1  1996/10/31 14:43:31  reza
  * First release of DODS-matlab servers.
  *
@@ -38,8 +42,6 @@ public:
   virtual BaseType *ptr_duplicate();
 
   virtual bool read(const String &dataset, int &error);
-  virtual bool read_seq(const String &dataset, MATSequence*);
-
 };
 
 #endif

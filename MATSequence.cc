@@ -1,5 +1,5 @@
 /*
-  Copyright 1996 The University of Rhode Island and The Massachusetts
+  Copyright 1996,1997 The University of Rhode Island and The Massachusetts
   Institute of Technology
 
   Portions of this software were developed by the Graduate School of
@@ -37,21 +37,23 @@
 // ReZa 9/25/96
 
 // $Log: MATSequence.cc,v $
+// Revision 1.3  1997/05/01 18:35:49  jimg
+// Added configureation header.
+// Merged changes from interim 2.1.2 version onto main trunk.
+//
 // Revision 1.2  1997/01/15 16:42:10  reza
 // Added (array to) sequence server.
 //
 // Revision 1.1  1996/10/31 14:43:30  reza
 // First release of DODS-matlab servers.
-//
-//
-//
 
-static char rcsid[]={"$Id: MATSequence.cc,v 1.2 1997/01/15 16:42:10 reza Exp $"};
+static char rcsid[]={"$Id: MATSequence.cc,v 1.3 1997/05/01 18:35:49 jimg Exp $"};
 
 #ifdef _GNUG_
 #pragma implementation
 #endif
 
+#include "config_mat.h"
 #include "MATSequence.h"
 
 Sequence *
@@ -81,95 +83,9 @@ MATSequence::~MATSequence()
 bool 
 MATSequence::read(const String &, int &)
 {
-  #include "MatSeq.h"
-
-  bool status = true;
-  char filename[255];
-
-  MATFile *fp;
-  Matrix *mp;
-  double *DataPtr;
-
-  if(row == 0){
-
-    if (read_p())  // Nothing to do
-      return true;
-    
-    memcpy(filename, (const char *)dataset, ((String)dataset).length()+1);
-    fp = matOpen(filename, "r");
-    if (fp == NULL){
-      sprintf(Msgt, "MATSequence: Could not open file %s",filename);
-      ErrMsgT(Msgt);
-      return false;
-    }
-    mp = matGetMatrix(fp,name());
-    DataPtr = mxGetPr(mp); // get the matrix structure
-
-    if (DataPtr == NULL) {
-      sprintf(Msgt, "MATArray: Error reading matrix");
-      ErrMsgT(Msgt);
-      return false;
-    }  
-
-    nVars = mxGetN(mp);
-    int nRec = mxGetM(mp);
- 
-    int Tcount = 0;
-    *varValues = new dods_float64 [nVars]; 
-  
-    for(int column = 0; column <= mxGetN(mp)-1 ; column++){
-      *(VarValues+Tcount) = (dods_float64) *(DataPtr+row+column*mxGetM(mp));  
-      Tcount++;
-    }
-
-  }
-
-  else{   
-    int Tcount = 0;
-    for(int column = 0; column <= mxGetN(mp)-1 ; column++){
-      *(VarValues+Tcount) = (dods_float64) *(DataPtr+row+column*mxGetM(mp));  
-      Tcount++;
-    }
-  }
-  row++;
-
-  if (row < nRec ) {
-     
-    for(Pix p = first_var(); p; next_var(p)) {
-      if (var(p)->type_name() == "Sequence") {
-	status = read_seq(dataset, (MATSequence *)var(p));
-	var(p)->set_read_p(status);
-      }
-      else status = status && var(p)->read(dataset,error);
-    }
-  }
-  else {
-    error = -1;  // Reached the end of the Sequence, exit.
-    status = false;
-  }
-  
-  // mxFreeMatrix(mp);
-  //matClose(fp);
-   
-  return status;
+    return true;
 }
 
-bool
-MATSequence::read_Seq(const String &dataset, MATSequence *seq)
-{
-  bool status = true;
-  int error;
-  
-  for(Pix p = seq->first_var(); p; seq->next_var(p)) {
-    if (seq->var(p)->type_name() == "Sequence") {
-      status = read_seq(dataset, (MATSequence *)seq->var(p));
-      seq->set_read_p(status);
-    }
-    else status = status && seq->var(p)->read(dataset,error);
-  }
-  
-  return status;
-}
 
 
 

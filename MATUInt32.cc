@@ -1,5 +1,5 @@
 /*
-  Copyright 1996 The University of Rhode Island and The Massachusetts
+  Copyright 1996,1997 The University of Rhode Island and The Massachusetts
   Institute of Technology
 
   Portions of this software were developed by the Graduate School of
@@ -37,11 +37,14 @@
 // ReZa 9/26/96
 
 // $Log: MATUInt32.cc,v $
+// Revision 1.2  1997/05/01 18:35:54  jimg
+// Added configureation header.
+// Merged changes from interim 2.1.2 version onto main trunk.
+//
 // Revision 1.1  1996/11/02 05:38:17  jimg
 // Added.
-//
 
-static char rcsid[]={"$Id: MATUInt32.cc,v 1.1 1996/11/02 05:38:17 jimg Exp $"};
+static char rcsid[]={"$Id: MATUInt32.cc,v 1.2 1997/05/01 18:35:54 jimg Exp $"};
 
 #ifdef __GNUG__
 #pragma implementation
@@ -49,6 +52,7 @@ static char rcsid[]={"$Id: MATUInt32.cc,v 1.1 1996/11/02 05:38:17 jimg Exp $"};
 
 #include <assert.h>
 
+#include "config_mat.h"
 #include "MATUInt32.h"
 
 UInt32 *
@@ -68,9 +72,9 @@ MATUInt32::ptr_duplicate(){
 }
 
 bool
-MATUInt32::read(const String &dataset, int &)
+MATUInt32::read(const String &, int &)
 {
-
+    return true;
 }
 
 

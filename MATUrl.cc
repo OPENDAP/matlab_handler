@@ -1,5 +1,5 @@
 /*
-  Copyright 1996 The University of Rhode Island and The Massachusetts
+  Copyright 1996,1997 The University of Rhode Island and The Massachusetts
   Institute of Technology
 
   Portions of this software were developed by the Graduate School of
@@ -37,17 +37,20 @@
 // ReZa 9/25/96
 
 // $Log: MATUrl.cc,v $
+// Revision 1.2  1997/05/01 18:35:56  jimg
+// Added configureation header.
+// Merged changes from interim 2.1.2 version onto main trunk.
+//
 // Revision 1.1  1996/10/31 14:43:36  reza
 // First release of DODS-matlab servers.
-//
-//
 
-static char rcsid[]={"$Id: MATUrl.cc,v 1.1 1996/10/31 14:43:36 reza Exp $"};
+static char rcsid[]={"$Id: MATUrl.cc,v 1.2 1997/05/01 18:35:56 jimg Exp $"};
 
 #ifdef __GNUG__
 #pragma implementation
 #endif
 
+#include "config_mat.h"
 #include "MATUrl.h"
 
 Url *

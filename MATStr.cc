@@ -1,5 +1,5 @@
 /*
-  Copyright 1996 The University of Rhode Island and The Massachusetts
+  Copyright 1996,1997 The University of Rhode Island and The Massachusetts
   Institute of Technology
 
   Portions of this software were developed by the Graduate School of
@@ -37,16 +37,17 @@
 // ReZa 9/25/96
 
 // $Log: MATStr.cc,v $
+// Revision 1.3  1997/05/01 18:35:51  jimg
+// Added configureation header.
+// Merged changes from interim 2.1.2 version onto main trunk.
+//
 // Revision 1.2  1997/01/15 16:42:12  reza
 // Added (array to) sequence server.
 //
 // Revision 1.1  1996/10/31 14:43:32  reza
 // First release of DODS-matlab servers.
-//
-//
-//
 
-static char rcsid[]={"$Id: MATStr.cc,v 1.2 1997/01/15 16:42:12 reza Exp $"};
+static char rcsid[]={"$Id: MATStr.cc,v 1.3 1997/05/01 18:35:51 jimg Exp $"};
 
 #ifdef __GNUG__
 #pragma implementation
@@ -54,6 +55,7 @@ static char rcsid[]={"$Id: MATStr.cc,v 1.2 1997/01/15 16:42:12 reza Exp $"};
 
 #include <assert.h>
 
+#include "config_mat.h"
 #include "MATStr.h"
 #include "MatSeq.h"
 
@@ -74,7 +76,7 @@ MATStr::ptr_duplicate()
 }
 
 bool
-MATStr::read(const String &dataset, int &)
+MATStr::read(const String &, int &)
 {
   bool Found = 0;
 
