@@ -38,6 +38,10 @@
 //
 
 // $Log: MatLabUtil.cc,v $
+// Revision 1.5  1997/06/06 03:56:36  jimg
+// Changed read_descriptors() so that String casts to const char * worked
+// properly.
+//
 // Revision 1.4  1997/05/01 18:35:59  jimg
 // Added configureation header.
 // Merged changes from interim 2.1.2 version onto main trunk.
@@ -51,7 +55,7 @@
 // Revision 1.1  1996/10/31 14:43:40  reza
 // First release of DODS-matlab servers.
 
-static char rcsid[]={"$Id: MatLabUtil.cc,v 1.4 1997/05/01 18:35:59 jimg Exp $"};
+static char rcsid[]={"$Id: MatLabUtil.cc,v 1.5 1997/06/06 03:56:36 jimg Exp $"};
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -59,6 +63,7 @@ static char rcsid[]={"$Id: MatLabUtil.cc,v 1.4 1997/05/01 18:35:59 jimg Exp $"};
 #include <string.h>
 #include <assert.h>
 #include <iostream.h>
+#include <stdiostream.h>
 
 #include "config_mat.h"
 #include "DAS.h"
@@ -96,7 +101,7 @@ MakeMatrix(String name, int row, int column)
 }
 
 DDS &
-read_descriptors(char *filename)
+read_descriptors(const char *filename)
 {
   MATFile *fp;
   Matrix *mp;
@@ -104,9 +109,9 @@ read_descriptors(char *filename)
   // dataset name
   dds_table.set_dataset_name(name_path(filename));
  
-  fp = matOpen(filename, "r");
+  fp = matOpen((char *)filename, "r");
   if (fp == NULL){
-    sprintf(Msgt, "mat_dds: Could not open file %s",filename);
+    sprintf(Msgt, "mat_dds: Could not open file %s", filename);
     ErrMsgT(Msgt);
     exit(1);
   }
@@ -134,7 +139,7 @@ read_descriptors(char *filename)
 // Read the matlab string variables as attributes in memory
 
 DAS &
-read_attributes(char *filename)
+read_attributes(const char *filename)
 {
   MATFile *fp;
   Matrix *mp;
@@ -143,7 +148,7 @@ read_attributes(char *filename)
  
   attr_table = das.add_table("MAT_GLOBAL", new AttrTable);
  
-  fp = matOpen(filename, "r");
+  fp = matOpen((char *)filename, "r");
 
   if (fp == NULL){
     sprintf(Msgt, "mat_das: Could not open file %s",filename);
@@ -179,5 +184,3 @@ read_attributes(char *filename)
   matClose(fp);
   return das;
 }
-
-
