@@ -1,5 +1,5 @@
 
-# $Id: Makefile.in,v 1.16 1999/05/06 00:08:15 edavis Exp $
+# $Id: Makefile.in,v 1.17 1999/05/06 15:51:28 jimg Exp $
 
 @SET_MAKE@
 
@@ -18,7 +18,9 @@ INCS = -I$(DODS_ROOT)/include -I$(MATLAB_ROOT)/extern/include @INCS@
 DEFS = -DUSE_LIBGXX_INLINES -DLOCAL @DEFS@ 
 CPPFLAGS = @CPPFLAGS@ $(DEFS) $(INCS)
 CFLAGS = @CFLAGS@ $(SWAP) $(NETLONG) 
-CXXFLAGS = @CXXFLAGS@ -fno-rtti
+CXXFLAGS = @CXXFLAGS@
+TEST_COV_FLAGS = -ftest-coverage -fprofile-arcs
+TAGS_FLAGS = -i ../dap/TAGS
 
 # Make sure that the core software libraries just built can be found without
 # first running make install, but that if `make install' and `make clean' has
@@ -109,6 +111,22 @@ Makefile: ${srcdir}/Makefile.in
 check:
 	echo "No tests"
 
+test-coverage: clean
+	$(MAKE) $(MFLAGS) CXXFLAGS="$(CXXFLAGS) $(TEST_COV_FLAGS)" check
+
+# Note that the gcov options -f and -b are useful but sometimes make looking
+# at the results of coverage analysis a little taxing. -b reports on all
+# branched and -f reports on all functions. The -l -o options summarize on a
+# per-file basis. 3/27/98 jhrg
+collect-coverage-data:
+	(cd test-coverage; \
+         cov_dat="coverage-data-`date +%m.%d.%y`"; \
+	 touch $$cov_dat; \
+	 for f in $(ALLSRCS); do \
+	     echo "\n*** Coverage data for $$f ***\n" >> $$cov_dat; \
+	     gcov -l -o ../ $$f >> $$cov_dat; \
+         done)
+
 install: all
 	$(INSTALL_PROGRAM) -s mat_das $(etcdir)
 	$(INSTALL_PROGRAM) -s mat_dds $(etcdir)
@@ -167,7 +185,7 @@ check-version:
 
 .PHONY: tags
 tags:
-	$(TAGS) $(TAGS_FLAGS) *.cc *.h *.lex *.y
+	$(TAGS) $(TAGS_FLAGS) *.cc *.h
 
 depend: 
 	@depend@ -- $(INCS) -I/usr/local/lib/g++-include -- $(SSRCS) $(CSRCS)
