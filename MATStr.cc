@@ -37,13 +37,16 @@
 // ReZa 9/25/96
 
 // $Log: MATStr.cc,v $
+// Revision 1.2  1997/01/15 16:42:12  reza
+// Added (array to) sequence server.
+//
 // Revision 1.1  1996/10/31 14:43:32  reza
 // First release of DODS-matlab servers.
 //
 //
 //
 
-static char rcsid[]={"$Id: MATStr.cc,v 1.1 1996/10/31 14:43:32 reza Exp $"};
+static char rcsid[]={"$Id: MATStr.cc,v 1.2 1997/01/15 16:42:12 reza Exp $"};
 
 #ifdef __GNUG__
 #pragma implementation
@@ -52,6 +55,7 @@ static char rcsid[]={"$Id: MATStr.cc,v 1.1 1996/10/31 14:43:32 reza Exp $"};
 #include <assert.h>
 
 #include "MATStr.h"
+#include "MatSeq.h"
 
 Str *
 NewStr(const String &n)
@@ -72,6 +76,23 @@ MATStr::ptr_duplicate()
 bool
 MATStr::read(const String &dataset, int &)
 {
-    return true;
+  bool Found = 0;
+
+  for(int j = 0; j < nVars; ++j) {
+    if( name() == varName[j] ) {
+          Found = 1;
+          val2buf( &((String)varValue[j]) );
+          set_read_p(true);
+          break;
+      }
+  }
+
+  if (!Found) {
+    sprintf(Msgt, "MATStr: Could not locate variable object -  %s",name());
+    ErrMsgT(Msgt);
+    return false;
+  }
+  else return true;
 }
+
 

@@ -11,9 +11,12 @@
 // ReZa 9/25/96
 
 /* $Log: MATSequence.h,v $
-/* Revision 1.1  1996/10/31 14:43:31  reza
-/* First release of DODS-matlab servers.
+/* Revision 1.2  1997/01/15 16:42:11  reza
+/* Added (array to) sequence server.
 /*
+ * Revision 1.1  1996/10/31 14:43:31  reza
+ * First release of DODS-matlab servers.
+ *
  *
 */
 
@@ -29,12 +32,14 @@ extern Sequence * NewSequence(const String &n = (char *)0);
 
 class MATSequence: public Sequence {
 public:
-    MATSequence(const String &n = (char *)0);
-    virtual ~MATSequence();
+  MATSequence(const String &n = (char *)0);
+  virtual ~MATSequence();
 
-    virtual BaseType *ptr_duplicate();
+  virtual BaseType *ptr_duplicate();
 
-    virtual bool read(const String &dataset, int &error);
+  virtual bool read(const String &dataset, int &error);
+  virtual bool read_seq(const String &dataset, MATSequence*);
+
 };
 
 #endif

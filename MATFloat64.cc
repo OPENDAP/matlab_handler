@@ -37,12 +37,15 @@
 // ReZa 9/28/96
 
 // $Log: MATFloat64.cc,v $
+// Revision 1.2  1997/01/15 16:42:09  reza
+// Added (array to) sequence server.
+//
 // Revision 1.1  1996/10/31 14:43:20  reza
 // First release of DODS-matlab servers.
 //
 //
 
-static char rcsid[]={"$Id: MATFloat64.cc,v 1.1 1996/10/31 14:43:20 reza Exp $"};
+static char rcsid[]={"$Id: MATFloat64.cc,v 1.2 1997/01/15 16:42:09 reza Exp $"};
 
 #ifdef __GNUG__
 #pragma implementation
@@ -51,6 +54,9 @@ static char rcsid[]={"$Id: MATFloat64.cc,v 1.1 1996/10/31 14:43:20 reza Exp $"};
 #include <assert.h>
 
 #include "MATFloat64.h"
+#include "MatSeq.h"
+
+static char Msgt[255]; // Used by ErrMsgT
 
 Float64 *
 NewFloat64(const String &n)
@@ -71,7 +77,24 @@ MATFloat64::ptr_duplicate()
 bool
 MATFloat64::read(const String &dataset, int &)
 {
-  return true;
+  bool Found = 0;
+
+  for(int j = 0; j < nVars; ++j) {
+    if( name() == varName[j] ) {
+          Found = 1;
+          val2buf((void *) varValue[j]);
+          set_read_p(true);
+          break;
+      }
+  }
+
+  if (!Found) {
+    sprintf(Msgt, "MATFloat64: Could not locate variable object -  %s",name());
+    ErrMsgT(Msgt);
+    return false;
+  }
+  else return true;
+  
 }
 
 
