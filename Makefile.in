@@ -1,5 +1,5 @@
 
-# $Id: Makefile.in,v 1.13 1999/02/26 19:03:06 jimg Exp $
+# $Id: Makefile.in,v 1.14 1999/03/29 19:22:03 jimg Exp $
 
 @SET_MAKE@
 
@@ -73,10 +73,11 @@ STRIP = strip
 
 MATSRC = MATArray.cc MATByte.cc MATFloat64.cc MATFunction.cc MATGrid.cc \
 	 MATInt32.cc MATList.cc MATSequence.cc MATStr.cc MATStructure.cc \
-	 MATUrl.cc MATUInt32.cc
+	 MATUrl.cc MATUInt32.cc MATInt16.cc MATUInt16.cc MATFloat32.cc
 
 MATOBJ = MATArray.o MATByte.o MATFloat64.o MATFunction.o MATGrid.o MATInt32.o \
-	 MATList.o MATSequence.o MATStr.o MATStructure.o MATUrl.o MATUInt32.o
+	 MATList.o MATSequence.o MATStr.o MATStructure.o MATUrl.o MATUInt32.o \
+	 MATInt16.o MATUInt16.o MATFloat32.o
 
 SSRCS = mat_das.cc mat_dds.cc mat_dods.cc $(MATSRC)
 DASOBJS = mat_das.o  MatLabUtil.o $(MATOBJ)
