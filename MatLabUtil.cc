@@ -38,12 +38,15 @@
 //
 
 // $Log: MatLabUtil.cc,v $
+// Revision 1.2  1996/11/13 05:13:07  reza
+// Added complex matrix capability.
+//
 // Revision 1.1  1996/10/31 14:43:40  reza
 // First release of DODS-matlab servers.
 //
 //
 
-static char rcsid[]={"$Id: MatLabUtil.cc,v 1.1 1996/10/31 14:43:40 reza Exp $"};
+static char rcsid[]={"$Id: MatLabUtil.cc,v 1.2 1996/11/13 05:13:07 reza Exp $"};
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -60,22 +63,34 @@ static char rcsid[]={"$Id: MatLabUtil.cc,v 1.1 1996/10/31 14:43:40 reza Exp $"};
 
 DDS dds_table;
 DAS das;
+static char Msgt[255];
 
 void 
 MakeMatrix(String name, int row, int column)
 {
   Array *ar; 
+  String DimName;
+
+  // complex matrices have common rows and columns
+  if (name.contains("_Real"))
+    DimName = name.before("_Real");
+  else{
+    if (name.contains("_Imaginary"))
+      DimName = name.before("_Imaginary");
+    else
+      DimName = name;
+  }
 
   BaseType *bt = NewFloat64(name);    
   ar = NewArray(name);
   ar->add_var(bt);
-  ar->append_dim(row,"row");
-  ar->append_dim(column,"column");
+  ar->append_dim(row,DimName+"_row");
+  ar->append_dim(column,DimName+"_column");
   dds_table.add_var(ar);
 }
 
 DDS &
-read_descriptors(const char *filename)
+read_descriptors(char *filename)
 {
   MATFile *fp;
   Matrix *mp;
@@ -84,14 +99,20 @@ read_descriptors(const char *filename)
   dds_table.set_dataset_name(name_path(filename));
  
   fp = matOpen(filename, "r");
+  if (fp == NULL){
+    sprintf(Msgt, "mat_dds: Could not open file %s",filename);
+    ErrMsgT(Msgt);
+    exit(1);
+  }
+
   // Read all the matrices in file
   while ((mp = matGetNextMatrix(fp)) != NULL) {
     // String types are used as attributes
     if(mxIsNumeric(mp)){
       if(mxIsComplex(mp)){
-	String Real = (String)mxGetName(mp) + ":Real";
+	String Real = (String)mxGetName(mp) + "_Real";
 	MakeMatrix(Real, mxGetN(mp),mxGetM(mp)); // real part
-	String Imag = (String)mxGetName(mp) + ":Imaginary";
+	String Imag = (String)mxGetName(mp) + "_Imaginary";
 	MakeMatrix(Imag, mxGetN(mp),mxGetM(mp)); // imaginary part
       }
       else
@@ -112,12 +133,18 @@ read_attributes(char *filename)
   MATFile *fp;
   Matrix *mp;
   char *str_rep;
-  static char Msgt[255];
   AttrTable  *attr_table;
  
   attr_table = das.add_table("MAT_GLOBAL", new AttrTable);
  
   fp = matOpen(filename, "r");
+
+  if (fp == NULL){
+    sprintf(Msgt, "mat_das: Could not open file %s",filename);
+    ErrMsgT(Msgt);
+    exit(1);
+  }
+
   // Read all the matrices in file
   while ((mp = matGetNextMatrix(fp)) != NULL) {
     // String types are used as attributes

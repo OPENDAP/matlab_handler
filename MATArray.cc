@@ -37,13 +37,16 @@
 // ReZa 9/28/96
 
 // $Log: MATArray.cc,v $
+// Revision 1.2  1996/11/13 05:13:06  reza
+// Added complex matrix capability.
+//
 // Revision 1.1  1996/10/31 14:43:16  reza
 // First release of DODS-matlab servers.
 //
 //
 //
 
-static char rcsid[]={"$Id: MATArray.cc,v 1.1 1996/10/31 14:43:16 reza Exp $"};
+static char rcsid[]={"$Id: MATArray.cc,v 1.2 1996/11/13 05:13:06 reza Exp $"};
 
 #ifdef __GNUG__
 #pragma implementation
@@ -92,6 +95,8 @@ MATArray::read(const String &dataset, int &)
   char filename[255];
 
   MATFile *fp;
+  Matrix *mp;
+  double *DataPtr;
 
   if (read_p())  // Nothing to do
     return true;
@@ -113,10 +118,27 @@ MATArray::read(const String &dataset, int &)
   start_p = dimension_start(p,true);
   stride_p = dimension_stride(p, true);
   stop_p = dimension_stop(p, true); 
-  Matrix *mp = matGetMatrix(fp,name());
 
-  double *RealPtr = mxGetPr(mp); // get the matrix structure
-  if (RealPtr == NULL) {
+
+
+  if(name().contains("_Real")){    // get real part of the complex  matrix 
+    String Rname = name().before("_Real");
+    mp = matGetMatrix(fp,Rname);
+    DataPtr = mxGetPr(mp); 
+  }
+  else{
+    if(name().contains("_Imaginary")){ // get Img part of the complex matrix  
+    String Iname = name().before("_Imaginary");
+    mp = matGetMatrix(fp,Iname);
+    DataPtr = mxGetPi(mp); 
+    }
+    else{
+      mp = matGetMatrix(fp,name());
+      DataPtr = mxGetPr(mp); // get the matrix structure
+    }
+  }
+
+  if (DataPtr == NULL) {
     sprintf(Msgt, "MATArray: Error reading matrix");
     ErrMsgT(Msgt);
     return false;
@@ -140,7 +162,7 @@ MATArray::read(const String &dataset, int &)
   
     for (int iline = start; iline <= stop; iline+=stride) {	  
       for(int ipix = start_p; ipix <= stop_p; ipix+=stride_p){
-	*(BufFlt64+Tcount) = (dods_float64) *(RealPtr+ipix+iline*mxGetN(mp));  
+	*(BufFlt64+Tcount) = (dods_float64) *(DataPtr+ipix+iline*mxGetN(mp));  
 	Tcount++;
       }
     }
