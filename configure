@@ -6025,7 +6025,8 @@ echo "${ECHO_T}\"Set Matlab root to $MATLAB_ROOT\"" >&6
 
         echo "$as_me:$LINENO: checking for matlab library dir" >&5
 echo $ECHO_N "checking for matlab library dir... $ECHO_C" >&6
-    if test -z "$MATLAB_LIB"
+
+        if test "$MATLAB_LIB"
     then
         matlab_lib_dir=${MATLAB_LIB}
     else
