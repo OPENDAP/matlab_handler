@@ -1,3 +1,31 @@
+2003-02-10    <jimg@dcz.dods.org>
+
+	* Merged with release-3-2-6.
+
+2002-05-10    <jimg@dcz.dods.org>
+
+	* MATArray.cc (read), MatLabUtil.cc : Replaced calls t
+	string::data with string::c_str. 
+
+2002-04-25  Ethan Davis  <edavis@ucar.edu>
+       * Makefile.in: changed value of basedir variable from "math-dods"
+       to "mat-dods"
+
+2002-04-05    <jimg@dcz.dods.org>
+
+	* INSTALL (IMPORTANT NOTE): Added text about LD_LIBRARY_PATH.
+	(SUPPORTED VERSIONS): The build is now set for ML 6. ML 5 requires
+	some hand editing.
+
+	* Makefile.in (configure): Fixed configure: target.
+
+2002-04-05  Ethan Davis  <edavis@ucar.edu>
+
+	* Changed include of "mat.h" to <mat.h> in MATArray.cc and
+	MatLabUtil.cc so Matlab include files won't appear in Makefile.in
+	dependencies list.
+
+
 2001-06-19  James Gallagher  <jimg@dcz.dods.org>
 
 	* Merged with release-3-2 head (tagged release-3-2-1). The next
@@ -49,5 +77,5 @@ Tue Dec 30 15:59:46 1997  James Gallagher  <jimg@localhost>
 	class. This corrects problems with those program and the
 	DODS_Dispatch perl class.
 
-$Id: ChangeLog,v 1.8 2001/06/19 18:26:55 jimg Exp $
+$Id: ChangeLog,v 1.9 2003/02/10 22:41:21 jimg Exp $
 
