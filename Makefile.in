@@ -1,5 +1,5 @@
 
-# $Id: Makefile.in,v 1.28 2004/01/26 23:30:35 jimg Exp $
+# $Id: Makefile.in,v 1.29 2004/01/27 23:11:15 jimg Exp $
 
 @SET_MAKE@
 
@@ -80,11 +80,11 @@ TAGS = etags
 STRIP = strip
 
 MATSRC = MATArray.cc MATByte.cc MATFloat64.cc MATGrid.cc \
-	 MATInt32.cc MATList.cc MATSequence.cc MATStr.cc MATStructure.cc \
+	 MATInt32.cc MATSequence.cc MATStr.cc MATStructure.cc \
 	 MATUrl.cc MATUInt32.cc MATInt16.cc MATUInt16.cc MATFloat32.cc
 
 MATOBJ = MATArray.o MATByte.o MATFloat64.o MATGrid.o MATInt32.o \
-	 MATList.o MATSequence.o MATStr.o MATStructure.o MATUrl.o MATUInt32.o \
+	 MATSequence.o MATStr.o MATStructure.o MATUrl.o MATUInt32.o \
 	 MATInt16.o MATUInt16.o MATFloat32.o
 
 SSRCS = mat_handler.cc $(MATSRC)
