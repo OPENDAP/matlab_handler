@@ -33,6 +33,9 @@ public:
 
 /* 
  * $Log: MATArray.h,v $
+ * Revision 1.6  2003/12/08 18:09:05  edavis
+ * Merge release-3-4 into trunk
+ *
  * Revision 1.5  2003/05/02 16:55:27  jimg
  * Removed default parameter specification for NewArray. These are already given
  * elsewhere.

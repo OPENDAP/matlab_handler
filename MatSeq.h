@@ -15,6 +15,9 @@ extern dods_float64 *varValue;
 
 /* 
  * $Log: MatSeq.h,v $
+ * Revision 1.4  2003/12/08 18:09:05  edavis
+ * Merge release-3-4 into trunk
+ *
  * Revision 1.3  2003/02/10 22:42:05  jimg
  * Merged with 3.2.6.
  *

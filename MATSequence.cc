@@ -9,7 +9,7 @@
 
 #include "config_mat.h"
 
-static char rcsid[] not_used ={"$Id: MATSequence.cc,v 1.7 2003/02/10 22:42:05 jimg Exp $"};
+static char rcsid[] not_used ={"$Id: MATSequence.cc,v 1.8 2003/12/08 18:09:05 edavis Exp $"};
 
 #ifdef __GNUG__
 #pragma implementation
@@ -51,6 +51,9 @@ MATSequence::read(const string &)
 }
 
 // $Log: MATSequence.cc,v $
+// Revision 1.8  2003/12/08 18:09:05  edavis
+// Merge release-3-4 into trunk
+//
 // Revision 1.7  2003/02/10 22:42:05  jimg
 // Merged with 3.2.6.
 //

@@ -7,7 +7,7 @@
 
 #include "config_mat.h"
 
-static char rcsid[] not_used ={"$Id: MATFloat32.cc,v 1.4 2003/02/10 22:42:05 jimg Exp $"};
+static char rcsid[] not_used ={"$Id: MATFloat32.cc,v 1.5 2003/12/08 18:09:05 edavis Exp $"};
 
 #ifdef __GNUG__
 #pragma implementation
@@ -39,6 +39,9 @@ MATFloat32::read(const string &)
 }
 
 // $Log: MATFloat32.cc,v $
+// Revision 1.5  2003/12/08 18:09:05  edavis
+// Merge release-3-4 into trunk
+//
 // Revision 1.4  2003/02/10 22:42:05  jimg
 // Merged with 3.2.6.
 //

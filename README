@@ -1,4 +1,4 @@
 This server was written for Matlab 4 files. Data stored using the newer
 Structure data type may break this server.
 
-$Id: README,v 1.1 2003/05/02 16:58:38 jimg Exp $
+$Id: README,v 1.2 2003/12/08 18:09:05 edavis Exp $

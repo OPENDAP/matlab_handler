@@ -9,7 +9,7 @@
 
 #include "config_mat.h"
 
-static char rcsid[] not_used ={"$Id: MATGrid.cc,v 1.6 2003/02/10 22:42:05 jimg Exp $"};
+static char rcsid[] not_used ={"$Id: MATGrid.cc,v 1.7 2003/12/08 18:09:05 edavis Exp $"};
 
 #include <string>
 
@@ -64,6 +64,9 @@ MATGrid::read(const string &dataset)
 }
 
 // $Log: MATGrid.cc,v $
+// Revision 1.7  2003/12/08 18:09:05  edavis
+// Merge release-3-4 into trunk
+//
 // Revision 1.6  2003/02/10 22:42:05  jimg
 // Merged with 3.2.6.
 //

@@ -25,7 +25,7 @@
  
 #include "config_mat.h"
 
-static char rcsid[] not_used ={"$Id: mat_handler.cc,v 1.1 2003/05/14 22:45:01 jimg Exp $"};
+static char rcsid[] not_used ={"$Id: mat_handler.cc,v 1.2 2003/12/08 18:09:05 edavis Exp $"};
 
 #include <iostream>
 #include <string>
@@ -113,6 +113,9 @@ main(int argc, char *argv[])
 }
 
 // $Log: mat_handler.cc,v $
+// Revision 1.2  2003/12/08 18:09:05  edavis
+// Merge release-3-4 into trunk
+//
 // Revision 1.1  2003/05/14 22:45:01  jimg
 // Added
 //

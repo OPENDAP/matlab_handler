@@ -54,6 +54,9 @@
 
 /* 
  * $Log: config_mat.h.in,v $
+ * Revision 1.9  2003/12/08 18:09:05  edavis
+ * Merge release-3-4 into trunk
+ *
  * Revision 1.8  2003/05/14 22:45:58  jimg
  * Updated configure, et c., so taht DODS_SERVER_VERSION is defined.
  *
