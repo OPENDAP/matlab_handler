@@ -13,7 +13,7 @@
 # Added some of my own macros (don't blame Unidata for them!) starting with
 # DODS_PROG_LEX and down in the file. jhrg 2/11/96
 #
-# $Id: configure,v 1.9 1997/10/04 00:33:18 jimg Exp $
+# $Id: configure,v 1.10 1997/10/09 22:19:48 jimg Exp $
 
 # Check for fill value usage.
 
@@ -2105,8 +2105,7 @@ echo "configure:2092: checking for matlab root" >&5
         echo "$ac_t"""Set Matlab root to $MATLAB_ROOT"" 1>&6
     fi
 
-    
-    matlab_lib_dir=`find $MATLAB_ROOT -name 'libmat*' -print \
+        matlab_lib_dir=`find $MATLAB_ROOT -name 'libmat*' -print \
 		    | sed 's@\(.*\)/libmat.*@\1@'`
     if test "$matlab_lib_dir"
     then
@@ -2123,7 +2122,7 @@ echo "configure:2092: checking for matlab root" >&5
     fi
 
     echo $ac_n "checking for _OtsDivide64Unsigned in -lots""... $ac_c" 1>&6
-echo "configure:2127: checking for _OtsDivide64Unsigned in -lots" >&5
+echo "configure:2126: checking for _OtsDivide64Unsigned in -lots" >&5
 ac_lib_var=`echo ots'_'_OtsDivide64Unsigned | sed 'y%./+-%__p_%'`
 if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
@@ -2131,7 +2130,7 @@ else
   ac_save_LIBS="$LIBS"
 LIBS="-lots  $LIBS"
 cat > conftest.$ac_ext <<EOF
-#line 2135 "configure"
+#line 2134 "configure"
 #include "confdefs.h"
 /* Override any gcc2 internal prototype to avoid an error.  */
 /* We use char because int might match the return type of a gcc2
@@ -2142,7 +2141,7 @@ int main() {
 _OtsDivide64Unsigned()
 ; return 0; }
 EOF
-if { (eval echo configure:2146: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest; then
+if { (eval echo configure:2145: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest; then
   rm -rf conftest*
   eval "ac_cv_lib_$ac_lib_var=yes"
 else
@@ -2183,12 +2182,12 @@ fi
     if test -z "$WWW_ROOT"
     then
         echo $ac_n "checking for the WWW library root directory""... $ac_c" 1>&6
-echo "configure:2187: checking for the WWW library root directory" >&5
+echo "configure:2186: checking for the WWW library root directory" >&5
 
-	for p in /usr/local/src/WWW /usr/local/WWW \
+	for p in ${DODS_ROOT}/packages/src/w3c-libwww \
+	         /usr/local/src/WWW /usr/local/WWW \
 		 /usr/local/src/w3c-libwww /usr/local/w3c-libwww \
-		 /usr/contrib/src/w3c-libwww /usr/contrib/w3c-libwww \
-		 $DODS_ROOT/third-party/w3c-libwww
+		 /usr/contrib/src/w3c-libwww /usr/contrib/w3c-libwww
 	do
 	    if test "$WWW_ROOT"
 	    then
@@ -2236,7 +2235,7 @@ fi
 
     
     echo $ac_n "checking for main in -lexpect521""... $ac_c" 1>&6
-echo "configure:2240: checking for main in -lexpect521" >&5
+echo "configure:2239: checking for main in -lexpect521" >&5
 ac_lib_var=`echo expect521'_'main | sed 'y%./+-%__p_%'`
 if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
@@ -2244,14 +2243,14 @@ else
   ac_save_LIBS="$LIBS"
 LIBS="-lexpect521 -ltcl76 $LIBS"
 cat > conftest.$ac_ext <<EOF
-#line 2248 "configure"
+#line 2247 "configure"
 #include "confdefs.h"
 
 int main() {
 main()
 ; return 0; }
 EOF
-if { (eval echo configure:2255: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest; then
+if { (eval echo configure:2254: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest; then
   rm -rf conftest*
   eval "ac_cv_lib_$ac_lib_var=yes"
 else
@@ -2276,7 +2275,7 @@ fi
     if test $HAVE_EXPECT -eq 0
     then
         echo $ac_n "checking for main in -lexpect5.21""... $ac_c" 1>&6
-echo "configure:2280: checking for main in -lexpect5.21" >&5
+echo "configure:2279: checking for main in -lexpect5.21" >&5
 ac_lib_var=`echo expect5.21'_'main | sed 'y%./+-%__p_%'`
 if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
@@ -2284,14 +2283,14 @@ else
   ac_save_LIBS="$LIBS"
 LIBS="-lexpect5.21 -ltcl7.6 $LIBS"
 cat > conftest.$ac_ext <<EOF
-#line 2288 "configure"
+#line 2287 "configure"
 #include "confdefs.h"
 
 int main() {
 main()
 ; return 0; }
 EOF
-if { (eval echo configure:2295: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest; then
+if { (eval echo configure:2294: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest; then
   rm -rf conftest*
   eval "ac_cv_lib_$ac_lib_var=yes"
 else
@@ -2319,17 +2318,17 @@ fi
             
     ac_safe=`echo "tclRegexp.h" | sed 'y%./+-%__p_%'`
 echo $ac_n "checking for tclRegexp.h""... $ac_c" 1>&6
-echo "configure:2323: checking for tclRegexp.h" >&5
+echo "configure:2322: checking for tclRegexp.h" >&5
 if eval "test \"`echo '$''{'ac_cv_header_$ac_safe'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   cat > conftest.$ac_ext <<EOF
-#line 2328 "configure"
+#line 2327 "configure"
 #include "confdefs.h"
 #include <tclRegexp.h>
 EOF
 ac_try="$ac_cpp conftest.$ac_ext >/dev/null 2>conftest.out"
-{ (eval echo configure:2333: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
+{ (eval echo configure:2332: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
 ac_err=`grep -v '^ *+' conftest.out`
 if test -z "$ac_err"; then
   rm -rf conftest*
@@ -2359,7 +2358,7 @@ fi
     if test $found -eq 0
     then
 	echo $ac_n "checking for tclRegex.h in some more places""... $ac_c" 1>&6
-echo "configure:2363: checking for tclRegex.h in some more places" >&5
+echo "configure:2362: checking for tclRegex.h in some more places" >&5
 
 	for d in $tcl_include_paths
 	do

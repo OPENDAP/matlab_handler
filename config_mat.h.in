@@ -3,17 +3,11 @@
 #ifndef _CONFIG_NC_H_
 #define _CONFIG_NC_H_
 
-<<<<<<< config_mat.h.in
-/* $Log: config_mat.h.in,v $
-/* Revision 1.3  1997/10/04 00:33:18  jimg
-/* Release 2.14c fixes
-/*
-/* Revision 1.2  1997/05/01 18:52:27  jimg
-/* Added
-/* */
-=======
 /* 
  * $Log: config_mat.h.in,v $
+ * Revision 1.4  1997/10/09 22:19:47  jimg
+ * Resolved conflicts in merge of 2.14c to trunk.
+ *
  * Revision 1.3  1997/10/04 00:33:18  jimg
  * Release 2.14c fixes
  *
@@ -29,7 +23,6 @@
  * Revision 1.2  1997/05/01 18:52:27  jimg
  * Added
  */
->>>>>>> 1.2.6.3
 
 /* Define to empty if the keyword does not work.  */
 #undef const
