@@ -1,3 +1,17 @@
+2001-06-19  James Gallagher  <jimg@dcz.dods.org>
+
+	* Merged with release-3-2 head (tagged release-3-2-1). The next
+	merge should use update -j release-3-2-1 -j release-3-2.
+
+	* Moved CVS Logs to the end of each file.
+	Added code to handle exceptions thrown by the dap library.
+	Added exceptions to the read methods.
+	Changed the definition of the read methods to match the dap library.
+
+	* Added text about Linux build versions
+
+	* added note about perl modules (tom)
+
 1999-11-04  James Gallagher  <jimg@dcz.dods.org>
 
 	* Merged: cvs update -j release-3-1-0 -j release-3-1, the next
@@ -35,5 +49,5 @@ Tue Dec 30 15:59:46 1997  James Gallagher  <jimg@localhost>
 	class. This corrects problems with those program and the
 	DODS_Dispatch perl class.
 
-$Id: ChangeLog,v 1.7 1999/11/05 05:50:20 jimg Exp $
+$Id: ChangeLog,v 1.8 2001/06/19 18:26:55 jimg Exp $
 
