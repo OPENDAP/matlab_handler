@@ -19,7 +19,7 @@
 #endif
 
 #include "Array.h"
-extern Array * NewArray(const string &n = "", BaseType *v = 0);
+extern Array * NewArray(const string &n , BaseType *v);
 
 class MATArray: public Array {
 public:
@@ -33,6 +33,10 @@ public:
 
 /* 
  * $Log: MATArray.h,v $
+ * Revision 1.5  2003/05/02 16:55:27  jimg
+ * Removed default parameter specification for NewArray. These are already given
+ * elsewhere.
+ *
  * Revision 1.4  2003/02/10 22:42:05  jimg
  * Merged with 3.2.6.
  *
