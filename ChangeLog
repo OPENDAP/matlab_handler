@@ -1,4 +1,12 @@
+2003-04-23  James Gallagher  <jimg@dcz.dods.org>
+
+	* Merged with 3.3.1.
+
+	* Removed README-ml.
+
 2003-02-10    <jimg@dcz.dods.org>
+
+	* Made release 3.3.0.
 
 	* Merged with release-3-2-6.
 
@@ -77,5 +85,5 @@ Tue Dec 30 15:59:46 1997  James Gallagher  <jimg@localhost>
 	class. This corrects problems with those program and the
 	DODS_Dispatch perl class.
 
-$Id: ChangeLog,v 1.9 2003/02/10 22:41:21 jimg Exp $
+$Id: ChangeLog,v 1.10 2003/04/24 00:48:50 jimg Exp $
 
