@@ -38,6 +38,11 @@
 //
 
 // $Log: MatLabUtil.cc,v $
+// Revision 1.7  1997/12/30 22:47:26  jimg
+// Modified the read_descriptions() and read_attributes() functions so that they
+// return boolean conditions, error messages and DAS/DDS objects. These work
+// better with the new filter main()s using the DODSFilter class.
+//
 // Revision 1.6  1997/10/04 00:33:17  jimg
 // Release 2.14c fixes
 //
@@ -62,7 +67,7 @@
 // Revision 1.1  1996/10/31 14:43:40  reza
 // First release of DODS-matlab servers.
 
-static char rcsid[]={"$Id: MatLabUtil.cc,v 1.6 1997/10/04 00:33:17 jimg Exp $"};
+static char rcsid[]={"$Id: MatLabUtil.cc,v 1.7 1997/12/30 22:47:26 jimg Exp $"};
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -108,21 +113,21 @@ MakeMatrix(DDS *dds_table, String name, int row, int column)
     dds_table->add_var(ar);
 }
 
-DDS *
-read_descriptors(const char *filename)
+bool
+read_descriptors(DDS &dds_table, const char *filename, String *err_msg)
 {
     MATFile *fp;
     Matrix *mp;
-    DDS *dds_table = new DDS;
 
     // dataset name
-    dds_table->set_dataset_name(name_path(filename));
+    dds_table.set_dataset_name(name_path(filename));
  
     fp = matOpen((char *)filename, "r");
     if (fp == NULL) {
 	sprintf(Msgt, "mat_dds: Could not open file %s", filename);
 	ErrMsgT(Msgt);
-	exit(1);
+	cat((String)"\"", (String)Msgt, (String)" \"", *(err_msg));
+	return false;
     }
 
     // Read all the matrices in file
@@ -132,41 +137,41 @@ read_descriptors(const char *filename)
 	    if(mxIsComplex(mp)) {
 		String Real = (String)mxGetName(mp) + "_Real";
 		// real part
-		MakeMatrix(dds_table, Real, mxGetM(mp),mxGetN(mp)); 
+		MakeMatrix(&dds_table, Real, mxGetM(mp),mxGetN(mp)); 
 		String Imag = (String)mxGetName(mp) + "_Imaginary";
 		// imaginary part
-		MakeMatrix(dds_table, Imag, mxGetM(mp),mxGetN(mp)); 
+		MakeMatrix(&dds_table, Imag, mxGetM(mp),mxGetN(mp)); 
 	    }
 	    else
-		MakeMatrix(dds_table, (String)mxGetName(mp), mxGetM(mp),
+		MakeMatrix(&dds_table, (String)mxGetName(mp), mxGetM(mp),
 			   mxGetN(mp)); 
 	}
 	mxFreeMatrix(mp);
     }
     matClose(fp);
 
-    return dds_table;
+    return true;
 }
 
 // Read the matlab string variables as attributes in memory
 
-DAS *
-read_attributes(const char *filename)
+bool
+read_attributes(DAS &das_table, const char *filename, String *err_msg)
 {
     MATFile *fp;
     Matrix *mp;
     char *str_rep;
     AttrTable  *attr_table;
-    DAS *das_table = new DAS;
 
-    attr_table = das_table->add_table("MAT_GLOBAL", new AttrTable);
+    attr_table = das_table.add_table("MAT_GLOBAL", new AttrTable);
  
     fp = matOpen((char *)filename, "r");
 
     if (fp == NULL){
 	sprintf(Msgt, "mat_das: Could not open file %s",filename);
 	ErrMsgT(Msgt);
-	exit(1);
+	cat((String)"\"", (String)Msgt, (String)" \"", *(err_msg));
+	return false;
     }
 
     // Read all the matrices in file
@@ -188,7 +193,8 @@ read_attributes(const char *filename)
 	    if (attr_table->append_attr(mxGetName(mp), "String",str_rep) == 0){
 		sprintf (Msgt,"SaveAttTa: Couldn't output attribute \"%s\"", mxGetName(mp));
 		ErrMsgT(Msgt);
-		exit(1);
+		cat((String)"\"", (String)Msgt, (String)" \"", *(err_msg));
+		return false;
 	    }
 	    delete [] str_rep;
 	}
@@ -196,5 +202,5 @@ read_attributes(const char *filename)
     }
     matClose(fp);
 
-    return das_table;
+    return true;
 }
