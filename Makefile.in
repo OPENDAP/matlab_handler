@@ -1,5 +1,5 @@
 
-# $Id: Makefile.in,v 1.6 1997/05/01 23:26:15 jimg Exp $
+# $Id: Makefile.in,v 1.7 1997/10/04 00:33:16 jimg Exp $
 
 @SET_MAKE@
 
@@ -23,12 +23,12 @@ CXXFLAGS = @CXXFLAGS@
 # Make sure that the core software libraries just built can be found without
 # first running make install, but that if `make install' and `make clean' has
 # been run those libraries will be found in the `lib' directory.
-LDFLAGS = @LDFLAGS@ -L. -L$(DODS_ROOT)/lib -L$(MATLAB_ROOT)/extern/lib/$(OS)
+LDFLAGS = @LDFLAGS@ -L. -L$(DODS_ROOT)/lib 
 
 LFLAGS=-8
 YFLAGS=-d
 
-LIBS = -ldap++ -lwww -lmat -lm @LIBS@
+LIBS = -ldap++ -lwww @MATLIBS@ -lm @LIBS@
 
 # Set the instalation directories; prefix can be set on the command line
 # during Makefile construction with `./configure --prefix /my/choice'
