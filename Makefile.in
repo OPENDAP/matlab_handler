@@ -1,5 +1,5 @@
 
-# $Id: Makefile.in,v 1.5 1997/05/01 23:24:39 jimg Exp $
+# $Id: Makefile.in,v 1.6 1997/05/01 23:26:15 jimg Exp $
 
 @SET_MAKE@
 
@@ -117,6 +117,7 @@ clean:
 
 distclean:
 	-rm -f *.o *.sum *.log *~ core
+	-rm -f $(PROG) 
 	-rm -f config.status config.log config.cache
 	-rm -f site.exp
 
