@@ -1,3 +1,7 @@
+1999-05-28  James Gallagher  <jimg@dcz.dods.org>
+
+	* Merge with alpha-3-0-0
+
 1999-05-25  James Gallagher  <jimg@dcz.dods.org>
 
 	* Added security fixes for the nph-mat.in script.
@@ -22,5 +26,5 @@ Tue Dec 30 15:59:46 1997  James Gallagher  <jimg@localhost>
 	class. This corrects problems with those program and the
 	DODS_Dispatch perl class.
 
-$Id: ChangeLog,v 1.5 1999/05/25 18:10:57 jimg Exp $
+$Id: ChangeLog,v 1.6 1999/05/28 17:06:47 jimg Exp $
 
