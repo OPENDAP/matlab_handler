@@ -1,0 +1,57 @@
+/* config_mat.h.in.  Generated automatically from configure.in by autoheader.  */
+
+#ifndef _CONFIG_NC_H_
+#define _CONFIG_NC_H_
+
+/* $Log: config_mat.h.in,v $
+/* Revision 1.2  1997/05/01 18:52:27  jimg
+/* Added
+/* */
+
+/* Define to empty if the keyword does not work.  */
+#undef const
+
+/* Define if you have the ANSI C header files.  */
+#undef STDC_HEADERS
+
+/* The number of bytes in a char.  */
+#undef SIZEOF_CHAR
+
+/* The number of bytes in a double.  */
+#undef SIZEOF_DOUBLE
+
+/* The number of bytes in a float.  */
+#undef SIZEOF_FLOAT
+
+/* The number of bytes in a int.  */
+#undef SIZEOF_INT
+
+/* The number of bytes in a long.  */
+#undef SIZEOF_LONG
+
+/* Define if you have the <limits.h> header file.  */
+#undef HAVE_LIMITS_H
+
+/* Here are the constants Added for DODS (by hand). jhrg 5/1/97 */
+
+/* If defined, the DBG() macro defined in debug.h is activated. This macro */
+/* is used for nominal program instrumentation */
+#undef DEBUG
+
+/* If defined, the DBG2() macro defined in debug.h is activated. This macro */
+/* is used for detailed program instrumentation. Anything that prints half a */
+/* page or more of stuff every time it is executed should be inside DBG2(), */
+/* not DBG(). */
+#undef DEBUG2
+
+/* GNU gcc/g++ provides a way to mark variables, etc. as unused */
+
+#if defined(__GNUG__) || defined(__GNUC__)
+#define __unused__ __attribute__ ((unused))
+#else
+#define __unused__ 
+#endif
+
+#endif /* _CONFIG_NC_H_ */
+
+
