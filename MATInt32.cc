@@ -37,12 +37,11 @@
 // ReZa 9/26/96
 
 // $Log: MATInt32.cc,v $
-// Revision 1.1  1996/10/31 14:43:26  reza
-// First release of DODS-matlab servers.
-//
+// Revision 1.2  1996/11/02 18:46:20  jimg
+// Messd up while making MATUInt32.cc; fixed and resubmitted.
 //
 
-static char rcsid[]={"$Id: MATInt32.cc,v 1.1 1996/10/31 14:43:26 reza Exp $"};
+static char rcsid[]={"$Id: MATInt32.cc,v 1.2 1996/11/02 18:46:20 jimg Exp $"};
 
 #ifdef __GNUG__
 #pragma implementation
