@@ -38,6 +38,9 @@
 //
 
 // $Log: MatLabUtil.cc,v $
+// Revision 1.3  1996/12/16 22:32:55  reza
+// Made array indices always consistent (i.e. Row, Column).
+//
 // Revision 1.2  1996/11/13 05:13:07  reza
 // Added complex matrix capability.
 //
@@ -46,7 +49,7 @@
 //
 //
 
-static char rcsid[]={"$Id: MatLabUtil.cc,v 1.2 1996/11/13 05:13:07 reza Exp $"};
+static char rcsid[]={"$Id: MatLabUtil.cc,v 1.3 1996/12/16 22:32:55 reza Exp $"};
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -111,12 +114,12 @@ read_descriptors(char *filename)
     if(mxIsNumeric(mp)){
       if(mxIsComplex(mp)){
 	String Real = (String)mxGetName(mp) + "_Real";
-	MakeMatrix(Real, mxGetN(mp),mxGetM(mp)); // real part
+	MakeMatrix(Real, mxGetM(mp),mxGetN(mp)); // real part
 	String Imag = (String)mxGetName(mp) + "_Imaginary";
-	MakeMatrix(Imag, mxGetN(mp),mxGetM(mp)); // imaginary part
+	MakeMatrix(Imag, mxGetM(mp),mxGetN(mp)); // imaginary part
       }
       else
-	MakeMatrix((String)mxGetName(mp),mxGetN(mp),mxGetM(mp)); 
+	MakeMatrix((String)mxGetName(mp),mxGetM(mp),mxGetN(mp)); 
     }
     mxFreeMatrix(mp);
   }
@@ -173,3 +176,5 @@ read_attributes(char *filename)
   matClose(fp);
   return das;
 }
+
+
