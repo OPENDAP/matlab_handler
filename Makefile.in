@@ -1,0 +1,129 @@
+
+# $Id: Makefile.in,v 1.1 1996/10/31 14:43:39 reza Exp $
+
+@SET_MAKE@
+
+# Set makefile variables, some with values supplid by configure 
+# DEFS gets the `-D' defines that describe what a particular system has
+# or doesn't have.
+
+PROG = mat_das mat_dds mat_dods
+DODS_ROOT = ../..
+
+INCS = -I$(DODS_ROOT)/include -I$(DODS_ROOT)/include/WWW 
+DEFS = -DUSE_LIBGXX_INLINES -DLOCAL @SWAP@ @NETLONG@ @DEFS@ 
+CPPFLAGS = @CPPFLAGS@ $(DEFS) $(INCS)
+CFLAGS = @CFLAGS@ $(SWAP) $(NETLONG) 
+CXXFLAGS = @CXXFLAGS@ -I/usr/reza/sisic/matlab/extern/include
+
+# Make sure that the core software libraries just built can be found without
+# first running make install, but that if `make install' and `make clean' has
+# been run those libraries will be found in the `lib' directory.
+LDFLAGS = @LDFLAGS@ -L. -L$(DODS_ROOT)/lib -L/usr/reza/sisic/matlab/extern/lib/alpha
+
+LFLAGS=-8
+YFLAGS=-d
+
+LIBS = -ldap++ -lwww -lexpect5.20 -ltcl7.5 -lmat -lm @LIBS@
+
+# Set the instalation directories; prefix can be set on the command line
+# during Makefile construction with `./configure --prefix /my/choice'
+
+prefix = @prefix@
+exec_prefix = $(prefix)
+bindir = $(exec_prefix)/bin
+libdir = $(exec_prefix)/lib
+includedir = $(prefix)/include
+manext = 1
+mandir = $(prefix)/man/man$(manext)
+
+src = $(DODS_ROOT)/src
+etcdir = $(DODS_ROOT)/etc
+
+INSTALLMAN = man
+
+SHELL = /bin/sh
+srcdir = @srcdir@
+VPATH = @srcdir@
+dir = @dir@
+
+# testsuite specifics
+RUNTEST= runtest
+RUNTESTFLAGS= #--all --verbose
+
+# names of key programs
+
+LN_S = @LN_S@
+AWK = @AWK@
+CC = @CC@
+CXX = @CXX@
+YACC = @YACC@
+LEX = @LEX@
+TYPEAR = ar
+RANLIB = @RANLIB@
+INSTALL = @INSTALL@
+INSTALL_DATA = @INSTALL_DATA@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+TAGS = etags
+
+MATSRC = MATArray.cc MATByte.cc MATFloat64.cc MATFunction.cc MATGrid.cc \
+	MATInt32.cc MATList.cc MATSequence.cc MATStr.cc MATStructure.cc MATUrl.cc
+
+MATOBJ = MATArray.o MATByte.o MATFloat64.o MATFunction.o MATGrid.o MATInt32.o \
+	MATList.o MATSequence.o MATStr.o MATStructure.o MATUrl.o
+
+SSRCS = mat_das.cc mat_dds.cc mat_dods.cc DspDodsUtilCc.cc DspDodsUtilC.c $(MATSRC)
+DASOBJS = mat_das.o  MatLabUtil.o $(MATOBJ)
+DDSOBJS = mat_dds.o MatLabUtil.o $(MATOBJ)
+SRVOBJS = mat_dods.o  MatLabUtil.o $(MATOBJ)
+
+XDRFILE	= @XDRFILE@
+
+.PHONY:	programs
+all: mat_das mat_dds mat_dods 
+
+mat_das:$(DASOBJS) 
+	$(CXX) $(LDFLAGS) -o mat_das $(DASOBJS) $(LIBS)	
+
+mat_dds:$(DDSOBJS) 
+	$(CXX) $(LDFLAGS) -o mat_dds $(DDSOBJS)  $(LIBS)
+
+mat_dods:$(SRVOBJS) 
+	$(CXX) $(LDFLAGS) -o mat_dods $(SRVOBJS) $(LIBS)
+
+# Standard targets with some customization for das-test and dds-test
+
+Makefile: ${srcdir}/Makefile.in
+	${SHELL} config.status
+
+check:
+	echo "No tests"
+
+install: all
+	$(INSTALL_PROGRAM) mat_das $(etcdir)
+	$(INSTALL_PROGRAM) mat_dds $(etcdir)
+	$(INSTALL_PROGRAM) mat_dods $(etcdir)
+	$(INSTALL_PROGRAM) mat $(etcdir)
+
+clean:	
+	-rm -f *.o *.sum *.log *~ core
+	-rm -f $(PROG) 
+
+distclean:
+	-rm -f *.o *.sum *.log *~ core
+	-rm -f config.status config.log config.cache
+	-rm -f site.exp
+
+depend: 
+	@depend@ -- $(INCS) -I/usr/local/lib/g++-include -- $(SSRCS) $(CSRCS)
+
+
+.SUFFIXES:      .o .cc .c
+
+.c.o:
+	$(CC) -c $(CFLAGS) $(CPPFLAGS) -o $@ $<
+
+.cc.o:
+	$(CXX) -c $(CXXFLAGS) $(CPPFLAGS) -o $@ $<
+
+# DO NOT DELETE THIS LINE -- make depend depends on it.
