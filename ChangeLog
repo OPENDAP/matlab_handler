@@ -1,3 +1,7 @@
+1999-05-25  James Gallagher  <jimg@dcz.dods.org>
+
+	* Added security fixes for the nph-mat.in script.
+
 1999-05-05  James Gallagher  <jimg@dcz.dods.org>
 
 	* Added test-coverage target to Makefile.in
@@ -18,5 +22,5 @@ Tue Dec 30 15:59:46 1997  James Gallagher  <jimg@localhost>
 	class. This corrects problems with those program and the
 	DODS_Dispatch perl class.
 
-$Id: ChangeLog,v 1.4 1999/05/05 21:44:35 jimg Exp $
+$Id: ChangeLog,v 1.5 1999/05/25 18:10:57 jimg Exp $
 
