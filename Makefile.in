@@ -1,5 +1,5 @@
 
-# $Id: Makefile.in,v 1.12 1998/09/17 18:46:17 jimg Exp $
+# $Id: Makefile.in,v 1.13 1999/02/26 19:03:06 jimg Exp $
 
 @SET_MAKE@
 
@@ -126,8 +126,7 @@ distclean:
 # that the root directory for DODS is called `DODS' (no version number).
 .PHONY: tar
 tar:
-	@echo "You should first run distclean in DODS_ROOT!"
-	@echo "(ignore this if you have)"
+	-rm -r config.cache config.log config.status
 	cd $(DODS_ROOT)/.. && \
 	tar --exclude '*/old' --exclude '*/.#*' --exclude '*/CVS' \
 	    --gzip --create --dereference --file DODS-$(dir).tar.gz \
