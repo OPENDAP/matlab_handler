@@ -1,5 +1,5 @@
 
-# $Id: Makefile.in,v 1.23 2003/02/10 22:42:05 jimg Exp $
+# $Id: Makefile.in,v 1.24 2003/03/07 21:48:40 jimg Exp $
 
 @SET_MAKE@
 
@@ -172,7 +172,6 @@ binary-tar:
 	$(TAR) --gzip --create \
 	    --file DODS-ml-server-$(version)-$(host).tar.gz \
             DODS/NEWS \
-            DODS/docs/README-ml-server \
 	    DODS/etc/mat_das \
 	    DODS/etc/mat_dds \
 	    DODS/etc/mat_dods
