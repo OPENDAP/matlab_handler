@@ -37,6 +37,9 @@
 // ReZa 9/28/96
 
 // $Log: MATArray.cc,v $
+// Revision 1.4  1996/12/18 21:07:45  reza
+// Made array indices always consistent (i.e. Row, Column).
+//
 // Revision 1.3  1996/12/16 21:40:50  reza
 // *** empty log message ***
 //
@@ -49,7 +52,7 @@
 //
 //
 
-static char rcsid[]={"$Id: MATArray.cc,v 1.3 1996/12/16 21:40:50 reza Exp $"};
+static char rcsid[]={"$Id: MATArray.cc,v 1.4 1996/12/18 21:07:45 reza Exp $"};
 
 #ifdef __GNUG__
 #pragma implementation
@@ -163,9 +166,9 @@ MATArray::read(const String &dataset, int &)
   int Tcount = 0;
   dods_float64 *BufFlt64 = new dods_float64 [Len]; 	
   
-    for (int iline = start; iline <= stop; iline+=stride) {	  
-      for(int ipix = start_p; ipix <= stop_p; ipix+=stride_p){
-	*(BufFlt64+Tcount) = (dods_float64) *(DataPtr+ipix+iline*mxGetN(mp));  
+    for (int row = start; row <= stop; row +=stride) {	  
+      for(int column = start_p; column <= stop_p; column+=stride_p){
+	*(BufFlt64+Tcount) = (dods_float64) *(DataPtr+row+column*mxGetM(mp));  
 	Tcount++;
       }
     }
