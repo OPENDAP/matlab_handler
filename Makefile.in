@@ -1,5 +1,5 @@
 
-# $Id: Makefile.in,v 1.17 1999/05/06 15:51:28 jimg Exp $
+# $Id: Makefile.in,v 1.18 1999/05/06 16:36:41 jimg Exp $
 
 @SET_MAKE@
 
@@ -140,7 +140,7 @@ clean:
 distclean:
 	-rm -f *.o *.sum *.log *~ core
 	-rm -f $(PROG) 
-	-rm -f config.status config.log config.cache
+	-rm -f config.status config.log config.cache nph-mat
 	-rm -f site.exp
 
 # This is a special tar target because it builds not only the tar file for
