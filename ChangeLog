@@ -1,3 +1,7 @@
+2004-07-09  James Gallagher  <jimg@comet.dods.org>
+
+	* Merged with release-3-4-3FCS
+
 2004-02-18  James Gallagher  <jimg@comet.dods.org>
 
 	* Merged release-3-4-2FCS.
@@ -94,5 +98,5 @@ Tue Dec 30 15:59:46 1997  James Gallagher  <jimg@localhost>
 	class. This corrects problems with those program and the
 	DODS_Dispatch perl class.
 
-$Id: ChangeLog,v 1.12 2004/02/19 19:42:55 jimg Exp $
+$Id: ChangeLog,v 1.13 2004/07/09 18:19:30 jimg Exp $
 
