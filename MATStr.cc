@@ -37,6 +37,9 @@
 // ReZa 9/25/96
 
 // $Log: MATStr.cc,v $
+// Revision 1.4  1997/05/01 19:05:24  jimg
+// Removed sequence code from read().
+//
 // Revision 1.3  1997/05/01 18:35:51  jimg
 // Added configureation header.
 // Merged changes from interim 2.1.2 version onto main trunk.
@@ -47,7 +50,7 @@
 // Revision 1.1  1996/10/31 14:43:32  reza
 // First release of DODS-matlab servers.
 
-static char rcsid[]={"$Id: MATStr.cc,v 1.3 1997/05/01 18:35:51 jimg Exp $"};
+static char rcsid[]={"$Id: MATStr.cc,v 1.4 1997/05/01 19:05:24 jimg Exp $"};
 
 #ifdef __GNUG__
 #pragma implementation
@@ -78,23 +81,7 @@ MATStr::ptr_duplicate()
 bool
 MATStr::read(const String &, int &)
 {
-  bool Found = 0;
-
-  for(int j = 0; j < nVars; ++j) {
-    if( name() == varName[j] ) {
-          Found = 1;
-          val2buf( &((String)varValue[j]) );
-          set_read_p(true);
-          break;
-      }
-  }
-
-  if (!Found) {
-    sprintf(Msgt, "MATStr: Could not locate variable object -  %s",name());
-    ErrMsgT(Msgt);
-    return false;
-  }
-  else return true;
+    return true;
 }
 
 
