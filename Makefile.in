@@ -1,5 +1,5 @@
 
-# $Id: Makefile.in,v 1.18 1999/05/06 16:36:41 jimg Exp $
+# $Id: Makefile.in,v 1.19 1999/05/27 18:35:07 jimg Exp $
 
 @SET_MAKE@
 
@@ -54,7 +54,6 @@ version = @VERSION@
 dir = math-dods-@VERSION@
 
 COMPONENT_NAME = DODS Matlab Server
-AWK = @AWK@
 
 # testsuite specifics
 RUNTEST= runtest
@@ -164,9 +163,9 @@ update-version: check-version
 	  $(AWK) ' \
 	    BEGIN { found = 0 } \
 	    { if ( $$0 ~ /^$(COMPONENT_NAME):/) \
-	        { print "$(COMPONENT_NAME):", $(version); found = 1 } \
+	        { print "$(COMPONENT_NAME): $(version)"; found = 1 } \
 	      else { print $$0 } } \
-	    END { if ( ! found) { print "$(COMPONENT_NAME):", $(version) } \
+	    END { if ( ! found) { print "$(COMPONENT_NAME): $(version)" } \
 	        }' > $(DODS_ROOT)/VERSION
 
 # Compare the version encoded in this Makefile (set by configure) with the
