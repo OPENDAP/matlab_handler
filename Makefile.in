@@ -1,5 +1,5 @@
 
-# $Id: Makefile.in,v 1.26 2003/12/08 18:09:05 edavis Exp $
+# $Id: Makefile.in,v 1.27 2003/12/09 17:05:04 edavis Exp $
 
 @SET_MAKE@
 
@@ -161,15 +161,10 @@ binary-tar:
 	cd $(DODS_ROOT)/.. && \
 	$(TAR) --gzip --create \
 	    --file DODS-ml-server-$(version)-$(host).tar.gz \
-<<<<<<< Makefile.in
-            DODS/NEWS \
-	    DODS/etc/mat_handler
-=======
             DODS/NEWS DODS/etc/README-security \
 	    DODS/etc/mat_das \
 	    DODS/etc/mat_dds \
 	    DODS/etc/mat_dods
->>>>>>> 1.24.2.1
 
 .PHONY: update-version
 update-version: check-version
