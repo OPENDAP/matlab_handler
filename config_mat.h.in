@@ -5,6 +5,9 @@
 
 /* 
  * $Log: config_mat.h.in,v $
+ * Revision 1.5  1999/05/04 03:30:51  jimg
+ * Merged no gnu changes
+ *
  * Revision 1.4  1997/10/09 22:19:47  jimg
  * Resolved conflicts in merge of 2.14c to trunk.
  *
@@ -66,9 +69,9 @@
 /* GNU gcc/g++ provides a way to mark variables, etc. as unused */
 
 #if defined(__GNUG__) || defined(__GNUC__)
-#define __unused__ __attribute__ ((unused))
+#define not_used __attribute__ ((unused))
 #else
-#define __unused__ 
+#define not_used 
 #endif
 
 #endif /* _CONFIG_NC_H_ */

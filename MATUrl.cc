@@ -37,6 +37,12 @@
 // ReZa 9/25/96
 
 // $Log: MATUrl.cc,v $
+// Revision 1.4  1999/05/04 03:30:51  jimg
+// Merged no gnu changes
+//
+// Revision 1.3.4.1  1999/04/09 05:29:01  brent
+// convert String.h code to new standard lib <string>
+//
 // Revision 1.3  1998/08/06 16:33:01  jimg
 // Fixed misuse of the read(...) member function. Return true if more data
 // is to be read, false is if not and error if an error is detected
@@ -48,22 +54,24 @@
 // Revision 1.1  1996/10/31 14:43:36  reza
 // First release of DODS-matlab servers.
 
-static char rcsid[]={"$Id: MATUrl.cc,v 1.3 1998/08/06 16:33:01 jimg Exp $"};
+static char rcsid[]={"$Id: MATUrl.cc,v 1.4 1999/05/04 03:30:51 jimg Exp $"};
 
 #ifdef __GNUG__
 #pragma implementation
 #endif
 
+#include <string>
+
 #include "config_mat.h"
 #include "MATUrl.h"
 
 Url *
-NewUrl(const String &n)
+NewUrl(const string &n)
 {
     return new MATUrl(n);
 }
 
-MATUrl::MATUrl(const String &n) : Url(n)
+MATUrl::MATUrl(const string &n) : Url(n)
 {
 }
 
@@ -74,7 +82,7 @@ MATUrl::ptr_duplicate()
 }
 
 bool
-MATUrl::read(const String &, int &error)
+MATUrl::read(const string &, int &error)
 {
     error = 1;
     return false;

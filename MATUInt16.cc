@@ -6,11 +6,14 @@
 // Authors: James Gallagher
 
 // $Log: MATUInt16.cc,v $
+// Revision 1.2  1999/05/04 03:30:51  jimg
+// Merged no gnu changes
+//
 // Revision 1.1  1999/03/29 19:21:44  jimg
 // Added
 //
 
-static char rcsid[]={"$Id: MATUInt16.cc,v 1.1 1999/03/29 19:21:44 jimg Exp $"};
+static char rcsid[]={"$Id: MATUInt16.cc,v 1.2 1999/05/04 03:30:51 jimg Exp $"};
 
 #ifdef __GNUG__
 #pragma implementation
@@ -20,12 +23,12 @@ static char rcsid[]={"$Id: MATUInt16.cc,v 1.1 1999/03/29 19:21:44 jimg Exp $"};
 #include "MATUInt16.h"
 
 UInt16 *
-NewUInt16(const String &n)
+NewUInt16(const string &n)
 {
     return new MATUInt16(n);
 }
 
-MATUInt16::MATUInt16(const String &n) : UInt16(n)
+MATUInt16::MATUInt16(const string &n) : UInt16(n)
 {
 }
 
@@ -36,7 +39,7 @@ MATUInt16::ptr_duplicate(){
 }
 
 bool
-MATUInt16::read(const String &, int &error)
+MATUInt16::read(const string &, int &error)
 {
     error  = 1;
     return false;

@@ -37,6 +37,12 @@
 // ReZa 9/25/96
 
 // $Log: MATStr.cc,v $
+// Revision 1.6  1999/05/04 03:30:51  jimg
+// Merged no gnu changes
+//
+// Revision 1.5.4.1  1999/04/09 05:29:01  brent
+// convert String.h code to new standard lib <string>
+//
 // Revision 1.5  1998/08/06 16:33:00  jimg
 // Fixed misuse of the read(...) member function. Return true if more data
 // is to be read, false is if not and error if an error is detected
@@ -54,25 +60,26 @@
 // Revision 1.1  1996/10/31 14:43:32  reza
 // First release of DODS-matlab servers.
 
-static char rcsid[]={"$Id: MATStr.cc,v 1.5 1998/08/06 16:33:00 jimg Exp $"};
+static char rcsid[]={"$Id: MATStr.cc,v 1.6 1999/05/04 03:30:51 jimg Exp $"};
 
 #ifdef __GNUG__
 #pragma implementation
 #endif
 
 #include <assert.h>
+#include <string>
 
 #include "config_mat.h"
 #include "MATStr.h"
 #include "MatSeq.h"
 
 Str *
-NewStr(const String &n)
+NewStr(const string &n)
 {
     return new MATStr(n);
 }
 
-MATStr::MATStr(const String &n) : Str(n)
+MATStr::MATStr(const string &n) : Str(n)
 {
 }
 
@@ -83,7 +90,7 @@ MATStr::ptr_duplicate()
 }
 
 bool
-MATStr::read(const String &, int &error)
+MATStr::read(const string &, int &error)
 {
     error = 1;
     return false;

@@ -37,6 +37,12 @@
 // ReZa 9/25/96
 
 // $Log: MATStructure.cc,v $
+// Revision 1.4  1999/05/04 03:30:51  jimg
+// Merged no gnu changes
+//
+// Revision 1.3.4.1  1999/04/09 05:29:01  brent
+// convert String.h code to new standard lib <string>
+//
 // Revision 1.3  1998/08/06 16:33:01  jimg
 // Fixed misuse of the read(...) member function. Return true if more data
 // is to be read, false is if not and error if an error is detected
@@ -48,17 +54,19 @@
 // Revision 1.1  1996/10/31 14:43:34  reza
 // First release of DODS-matlab servers.
 
-static char rcsid[]={"$Id: MATStructure.cc,v 1.3 1998/08/06 16:33:01 jimg Exp $"};
+static char rcsid[]={"$Id: MATStructure.cc,v 1.4 1999/05/04 03:30:51 jimg Exp $"};
 
 #ifdef _GNUG_
 #pragma implementation
 #endif
 
+#include <string>
+
 #include "config_mat.h"
 #include "MATStructure.h"
 
 Structure *
-NewStructure(const String &n)
+NewStructure(const string &n)
 {
     return new MATStructure(n);
 }
@@ -69,7 +77,7 @@ MATStructure::ptr_duplicate()
     return new MATStructure(*this);
 }
 
-MATStructure::MATStructure(const String &n) : Structure(n)
+MATStructure::MATStructure(const string &n) : Structure(n)
 {
 }
 
@@ -78,7 +86,7 @@ MATStructure::~MATStructure()
 }
 
 bool
-MATStructure::read(const String &, int &error)
+MATStructure::read(const string &, int &error)
 {
     error = 1;
     return false;

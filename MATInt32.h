@@ -12,6 +12,12 @@
 // ReZa 9/25/96
 
 /* $Log: MATInt32.h,v $
+/* Revision 1.2  1999/05/04 03:30:50  jimg
+/* Merged no gnu changes
+/*
+/* Revision 1.1.20.1  1999/04/09 05:29:02  brent
+/* convert String.h code to new standard lib <string>
+/*
 /* Revision 1.1  1996/10/31 14:43:27  reza
 /* First release of DODS-matlab servers.
 /*
@@ -26,16 +32,16 @@
 #endif
 
 #include "Int32.h"
-extern Int32 * NewInt32(const String &n = (char *)0);
+extern Int32 * NewInt32(const string &n = "");
 
 class MATInt32: public Int32 {
 public:
-    MATInt32(const String &n = (char *)0);
+    MATInt32(const string &n = "");
     virtual ~MATInt32() {}
 
     virtual BaseType *ptr_duplicate();
     
-    virtual bool read(const String &dataset, int &error);
+    virtual bool read(const string &dataset, int &error);
 };
 
 typedef MATInt32 * MATInt32Ptr;

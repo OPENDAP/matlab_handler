@@ -11,6 +11,12 @@
 // ReZa 8/25/96
 
 /* $Log: MATStr.h,v $
+/* Revision 1.2  1999/05/04 03:30:51  jimg
+/* Merged no gnu changes
+/*
+/* Revision 1.1.20.1  1999/04/09 05:29:02  brent
+/* convert String.h code to new standard lib <string>
+/*
 /* Revision 1.1  1996/10/31 14:43:33  reza
 /* First release of DODS-matlab servers.
 /*
@@ -27,16 +33,16 @@
 #include <limits.h>
 
 #include "Str.h"
-extern Str * NewStr(const String &n = (char *)0);
+extern Str * NewStr(const string &n = "");
 
 class MATStr: public Str {
 public:
-    MATStr(const String &n = (char *)0);
+    MATStr(const string &n = "");
     virtual ~MATStr() {}
 
     virtual BaseType *ptr_duplicate();
     
-    virtual bool read(const String &dataset, int &error);
+    virtual bool read(const string &dataset, int &error);
 };
 
 typedef MATStr * MATStrPtr;

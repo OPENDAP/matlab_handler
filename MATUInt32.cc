@@ -37,6 +37,12 @@
 // ReZa 9/26/96
 
 // $Log: MATUInt32.cc,v $
+// Revision 1.4  1999/05/04 03:30:51  jimg
+// Merged no gnu changes
+//
+// Revision 1.3.4.1  1999/04/09 05:29:01  brent
+// convert String.h code to new standard lib <string>
+//
 // Revision 1.3  1998/08/06 16:33:01  jimg
 // Fixed misuse of the read(...) member function. Return true if more data
 // is to be read, false is if not and error if an error is detected
@@ -48,24 +54,25 @@
 // Revision 1.1  1996/11/02 05:38:17  jimg
 // Added.
 
-static char rcsid[]={"$Id: MATUInt32.cc,v 1.3 1998/08/06 16:33:01 jimg Exp $"};
+static char rcsid[]={"$Id: MATUInt32.cc,v 1.4 1999/05/04 03:30:51 jimg Exp $"};
 
 #ifdef __GNUG__
 #pragma implementation
 #endif
 
 #include <assert.h>
+#include <string>
 
 #include "config_mat.h"
 #include "MATUInt32.h"
 
 UInt32 *
-NewUInt32(const String &n)
+NewUInt32(const string &n)
 {
     return new MATUInt32(n);
 }
 
-MATUInt32::MATUInt32(const String &n) : UInt32(n)
+MATUInt32::MATUInt32(const string &n) : UInt32(n)
 {
 }
 
@@ -76,7 +83,7 @@ MATUInt32::ptr_duplicate(){
 }
 
 bool
-MATUInt32::read(const String &, int &error)
+MATUInt32::read(const string &, int &error)
 {
     error  = 1;
     return false;

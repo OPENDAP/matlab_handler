@@ -11,6 +11,12 @@
 // ReZa 9/25/96
 
 /* $Log: MATStructure.h,v $
+/* Revision 1.2  1999/05/04 03:30:51  jimg
+/* Merged no gnu changes
+/*
+/* Revision 1.1.20.1  1999/04/09 05:29:02  brent
+/* convert String.h code to new standard lib <string>
+/*
 /* Revision 1.1  1996/10/31 14:43:35  reza
 /* First release of DODS-matlab servers.
 /*
@@ -25,16 +31,16 @@
 #endif
 
 #include "Structure.h"
-extern Structure * NewStructure(const String &n = (char *)0);
+extern Structure * NewStructure(const string &n = "");
 
 class MATStructure: public Structure {
 public:
-    MATStructure(const String &n = (char *)0);
+    MATStructure(const string &n = "");
     virtual ~MATStructure();
 
     virtual BaseType *ptr_duplicate();
 
-    virtual bool read(const String &dataset, int &error);
+    virtual bool read(const string &dataset, int &error);
 };
 
 #endif

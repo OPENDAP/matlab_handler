@@ -6,6 +6,9 @@
 // Authors: James Gallagher
 
 // $Log: MATInt16.h,v $
+// Revision 1.2  1999/05/04 03:30:50  jimg
+// Merged no gnu changes
+//
 // Revision 1.1  1999/03/29 19:21:44  jimg
 // Added
 //
@@ -18,16 +21,16 @@
 #endif
 
 #include "Int16.h"
-extern Int16 * NewInt16(const String &n = (char *)0);
+extern Int16 * NewInt16(const string &n = "");
 
 class MATInt16: public Int16 {
 public:
-    MATInt16(const String &n = (char *)0);
+    MATInt16(const string &n = (char *)0);
     virtual ~MATInt16() {}
 
     virtual BaseType *ptr_duplicate();
     
-    virtual bool read(const String &dataset, int &error);
+    virtual bool read(const string &dataset, int &error);
 };
 
 #endif

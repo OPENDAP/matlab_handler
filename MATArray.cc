@@ -37,6 +37,15 @@
 // ReZa 9/28/96
 
 // $Log: MATArray.cc,v $
+// Revision 1.7  1999/05/04 03:30:49  jimg
+// Merged no gnu changes
+//
+// Revision 1.6.4.2  1999/05/03 00:39:15  brent
+// convert String.h code to new standard lib <string>
+//
+// Revision 1.6.4.1  1999/04/09 05:29:00  brent
+// convert String.h code to new standard lib <string>
+//
 // Revision 1.6  1998/08/06 16:32:57  jimg
 // Fixed misuse of the read(...) member function. Return true if more data
 // is to be read, false is if not and error if an error is detected
@@ -57,7 +66,7 @@
 // Revision 1.1  1996/10/31 14:43:16  reza
 // First release of DODS-matlab servers.
 
-static char rcsid[]={"$Id: MATArray.cc,v 1.6 1998/08/06 16:32:57 jimg Exp $"};
+static char rcsid[]={"$Id: MATArray.cc,v 1.7 1999/05/04 03:30:49 jimg Exp $"};
 
 #ifdef __GNUG__
 #pragma implementation
@@ -69,6 +78,7 @@ static char rcsid[]={"$Id: MATArray.cc,v 1.6 1998/08/06 16:32:57 jimg Exp $"};
 #include <string.h>
 #include <iostream.h>
 #include <assert.h>
+#include <string>
 
 #include "config_mat.h"
 #include "cgi_util.h"
@@ -78,7 +88,7 @@ static char rcsid[]={"$Id: MATArray.cc,v 1.6 1998/08/06 16:32:57 jimg Exp $"};
 static char Msgt[255]; // Used by ErrMsgT
 
 Array *
-NewArray(const String &n, BaseType *v)
+NewArray(const string &n, BaseType *v)
 {
     return new MATArray(n, v);
 }
@@ -89,7 +99,7 @@ MATArray::ptr_duplicate()
     return new MATArray(*this);
 }
 
-MATArray::MATArray(const String &n, BaseType *v) : Array(n, v)
+MATArray::MATArray(const string &n, BaseType *v) : Array(n, v)
 {
 }
 
@@ -98,11 +108,12 @@ MATArray::~MATArray()
 }
 
 bool
-MATArray::read(const String &dataset, int &error)
+MATArray::read(const string &dataset, int &error)
 {
     int start, stride, stop;
     int start_p, stride_p, stop_p;
     int nline, npix; 
+    size_t pos;
     MATFile *fp;
     Matrix *mp;
     double *DataPtr;
@@ -110,9 +121,9 @@ MATArray::read(const String &dataset, int &error)
     if (read_p())  // Nothing to do
 	return false;
 
-    fp = matOpen((const char *)dataset, "r");
+    fp = matOpen((char *)dataset.c_str(), "r");
     if (fp == NULL){
-	sprintf(Msgt, "MATArray: Could not open file %s", (const char *)dataset);
+	sprintf(Msgt, "MATArray: Could not open file %s", dataset.data());
 	ErrMsgT(Msgt);
 	error = 1;
 	return false;
@@ -130,19 +141,19 @@ MATArray::read(const String &dataset, int &error)
 
 
 
-    if(name().contains("_Real")){    // get real part of the complex  matrix 
-	String Rname = name().before("_Real");
-	mp = matGetMatrix(fp,Rname);
+    if ((pos = name().find("_Real")) != name().npos) {    // get real part of the complex  matrix  
+	string Rname = name().substr(0,pos);
+	mp = matGetMatrix(fp,Rname.data());
 	DataPtr = mxGetPr(mp); 
     }
     else{
-	if(name().contains("_Imaginary")){ // get Img part of the complex matrix  
-	    String Iname = name().before("_Imaginary");
-	    mp = matGetMatrix(fp,Iname);
+	if ((pos = name().find("_Imaginary")) != name().npos) { // get Img part of the complex matrix  
+	    string Iname = name().substr(0,pos);
+	    mp = matGetMatrix(fp,Iname.data());
 	    DataPtr = mxGetPi(mp); 
 	}
 	else{
-	    mp = matGetMatrix(fp,name());
+	    mp = matGetMatrix(fp,name().data());
 	    DataPtr = mxGetPr(mp); // get the matrix structure
 	}
     }

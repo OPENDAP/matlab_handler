@@ -37,6 +37,12 @@
 // ReZa 9/28/96
 
 // $Log: MATFloat64.cc,v $
+// Revision 1.5  1999/05/04 03:30:50  jimg
+// Merged no gnu changes
+//
+// Revision 1.4.4.1  1999/04/09 05:29:00  brent
+// convert String.h code to new standard lib <string>
+//
 // Revision 1.4  1998/08/06 16:32:58  jimg
 // Fixed misuse of the read(...) member function. Return true if more data
 // is to be read, false is if not and error if an error is detected
@@ -51,13 +57,14 @@
 // Revision 1.1  1996/10/31 14:43:20  reza
 // First release of DODS-matlab servers.
 
-static char rcsid[]={"$Id: MATFloat64.cc,v 1.4 1998/08/06 16:32:58 jimg Exp $"};
+static char rcsid[]={"$Id: MATFloat64.cc,v 1.5 1999/05/04 03:30:50 jimg Exp $"};
 
 #ifdef __GNUG__
 #pragma implementation
 #endif
 
 #include <assert.h>
+#include <string>
 
 #include "config_mat.h"
 #include "MATFloat64.h"
@@ -66,12 +73,12 @@ static char rcsid[]={"$Id: MATFloat64.cc,v 1.4 1998/08/06 16:32:58 jimg Exp $"};
 static char Msgt[255]; // Used by ErrMsgT
 
 Float64 *
-NewFloat64(const String &n)
+NewFloat64(const string &n)
 {
     return new MATFloat64(n);
 }
 
-MATFloat64::MATFloat64(const String &n) : Float64(n)
+MATFloat64::MATFloat64(const string &n) : Float64(n)
 {
 }
 
@@ -82,7 +89,7 @@ MATFloat64::ptr_duplicate()
 }
  
 bool
-MATFloat64::read(const String &, int &error)
+MATFloat64::read(const string &, int &error)
 {
     error = 1;
     return false;

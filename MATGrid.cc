@@ -37,6 +37,12 @@
 // ReZa 9/25/96
 
 // $Log: MATGrid.cc,v $
+// Revision 1.4  1999/05/04 03:30:50  jimg
+// Merged no gnu changes
+//
+// Revision 1.3.4.1  1999/04/09 05:29:00  brent
+// convert String.h code to new standard lib <string>
+//
 // Revision 1.3  1998/08/06 16:32:59  jimg
 // Fixed misuse of the read(...) member function. Return true if more data
 // is to be read, false is if not and error if an error is detected
@@ -48,13 +54,15 @@
 // Revision 1.1  1996/10/31 14:43:24  reza
 // First release of DODS-matlab servers.
 
-static char rcsid[]={"$Id: MATGrid.cc,v 1.3 1998/08/06 16:32:59 jimg Exp $"};
+static char rcsid[]={"$Id: MATGrid.cc,v 1.4 1999/05/04 03:30:50 jimg Exp $"};
+
+#include <string>
 
 #include "config_mat.h"
 #include "MATGrid.h"
 
 Grid *
-NewGrid(const String &n)
+NewGrid(const string &n)
 {
     return new MATGrid(n);
 }
@@ -69,7 +77,7 @@ MATGrid::ptr_duplicate()
 
 // public
 
-MATGrid::MATGrid(const String &n) : Grid(n)
+MATGrid::MATGrid(const string &n) : Grid(n)
 {
 }
 
@@ -78,7 +86,7 @@ MATGrid::~MATGrid()
 }
 
 bool
-MATGrid::read(const String &dataset, int &error)
+MATGrid::read(const string &dataset, int &error)
 {
     bool status;
 

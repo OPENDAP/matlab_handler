@@ -12,6 +12,12 @@
 // ReZa 9/25/96
 
 /* $Log: MATArray.h,v $
+/* Revision 1.2  1999/05/04 03:30:50  jimg
+/* Merged no gnu changes
+/*
+/* Revision 1.1.20.1  1999/04/09 05:29:01  brent
+/* convert String.h code to new standard lib <string>
+/*
 /* Revision 1.1  1996/10/31 14:43:17  reza
 /* First release of DODS-matlab servers.
 /*
@@ -26,16 +32,16 @@
 #endif
 
 #include "Array.h"
-extern Array * NewArray(const String &n = (char *)0, BaseType *v = 0);
+extern Array * NewArray(const string &n = "", BaseType *v = 0);
 
 class MATArray: public Array {
 public:
-    MATArray(const String &n = (char *)0, BaseType *v = 0);
+    MATArray(const string &n = "", BaseType *v = 0);
     virtual ~MATArray();
 
     virtual BaseType *ptr_duplicate();
 
-    virtual bool read(const String &dataset, int &error);
+    virtual bool read(const string &dataset, int &error);
 };
 
 #endif

@@ -37,6 +37,12 @@
 // ReZa 9/25/96
 
 // $Log: MATSequence.cc,v $
+// Revision 1.5  1999/05/04 03:30:50  jimg
+// Merged no gnu changes
+//
+// Revision 1.4.4.1  1999/04/09 05:29:01  brent
+// convert String.h code to new standard lib <string>
+//
 // Revision 1.4  1998/08/06 16:33:00  jimg
 // Fixed misuse of the read(...) member function. Return true if more data
 // is to be read, false is if not and error if an error is detected
@@ -51,17 +57,19 @@
 // Revision 1.1  1996/10/31 14:43:30  reza
 // First release of DODS-matlab servers.
 
-static char rcsid[]={"$Id: MATSequence.cc,v 1.4 1998/08/06 16:33:00 jimg Exp $"};
+static char rcsid[]={"$Id: MATSequence.cc,v 1.5 1999/05/04 03:30:50 jimg Exp $"};
 
 #ifdef _GNUG_
 #pragma implementation
 #endif
 
+#include <string>
+
 #include "config_mat.h"
 #include "MATSequence.h"
 
 Sequence *
-NewSequence(const String &n)
+NewSequence(const string &n)
 {
     return new MATSequence(n);
 }
@@ -76,7 +84,7 @@ MATSequence::ptr_duplicate()
 
 // public
 
-MATSequence::MATSequence(const String &n) : Sequence(n)
+MATSequence::MATSequence(const string &n) : Sequence(n)
 {
 }
 
@@ -85,7 +93,7 @@ MATSequence::~MATSequence()
 }
 
 bool 
-MATSequence::read(const String &, int &error)
+MATSequence::read(const string &, int &error)
 {
     error = 1;
     return false;

@@ -11,6 +11,12 @@
 // ReZa 9/25/96
 
 /* $Log: MATSequence.h,v $
+/* Revision 1.4  1999/05/04 03:30:51  jimg
+/* Merged no gnu changes
+/*
+/* Revision 1.3.18.1  1999/04/09 05:29:02  brent
+/* convert String.h code to new standard lib <string>
+/*
 /* Revision 1.3  1997/05/01 18:35:50  jimg
 /* Added configureation header.
 /* Merged changes from interim 2.1.2 version onto main trunk.
@@ -32,16 +38,16 @@
 #endif
 
 #include "Sequence.h"
-extern Sequence * NewSequence(const String &n = (char *)0);
+extern Sequence * NewSequence(const string &n = "");
 
 class MATSequence: public Sequence {
 public:
-  MATSequence(const String &n = (char *)0);
+  MATSequence(const string &n = "");
   virtual ~MATSequence();
 
   virtual BaseType *ptr_duplicate();
 
-  virtual bool read(const String &dataset, int &error);
+  virtual bool read(const string &dataset, int &error);
 };
 
 #endif

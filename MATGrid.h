@@ -11,6 +11,12 @@
 // ReZa 9/25/96
 
 /* $Log: MATGrid.h,v $
+/* Revision 1.2  1999/05/04 03:30:50  jimg
+/* Merged no gnu changes
+/*
+/* Revision 1.1.20.1  1999/04/09 05:29:02  brent
+/* convert String.h code to new standard lib <string>
+/*
 /* Revision 1.1  1996/10/31 14:43:25  reza
 /* First release of DODS-matlab servers.
 /*
@@ -26,16 +32,16 @@
 #endif
 
 #include "Grid.h"
-extern Grid * NewGrid(const String &n = (char *)0);
+extern Grid * NewGrid(const string &n = "");
 
 class MATGrid: public Grid {
 public:
-    MATGrid(const String &n = (char *)0);
+    MATGrid(const string &n = "");
     virtual ~MATGrid();
     
     virtual BaseType *ptr_duplicate();
 
-    virtual bool read(const String &dataset, int &error);
+    virtual bool read(const string &dataset, int &error);
 
 };
 

@@ -37,6 +37,12 @@
 // ReZa 9/28/96
 
 // $Log: MATByte.cc,v $
+// Revision 1.4  1999/05/04 03:30:50  jimg
+// Merged no gnu changes
+//
+// Revision 1.3.4.1  1999/04/09 05:29:00  brent
+// convert String.h code to new standard lib <string>
+//
 // Revision 1.3  1998/08/06 16:32:58  jimg
 // Fixed misuse of the read(...) member function. Return true if more data
 // is to be read, false is if not and error if an error is detected
@@ -48,24 +54,25 @@
 // Revision 1.1  1996/10/31 14:43:18  reza
 // First release of DODS-matlab servers.
 
-static char rcsid[]={"$Id: MATByte.cc,v 1.3 1998/08/06 16:32:58 jimg Exp $"};
+static char rcsid[]={"$Id: MATByte.cc,v 1.4 1999/05/04 03:30:50 jimg Exp $"};
 
 #ifdef __GNUG__
 #pragma implementation
 #endif
 
 #include <assert.h>
+#include <string>
 
 #include "config_mat.h"
 #include "MATByte.h"
 
 Byte *
-NewByte(const String &n)
+NewByte(const string &n)
 {
     return new MATByte(n);
 }
 
-MATByte::MATByte(const String &n) : Byte(n)
+MATByte::MATByte(const string &n) : Byte(n)
 {
 }
 
@@ -76,7 +83,7 @@ MATByte::ptr_duplicate()
 }
 
 bool
-MATByte::read(const String &, int &error)
+MATByte::read(const string &, int &error)
 {
     error = 1;
     return false;

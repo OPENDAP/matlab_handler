@@ -12,6 +12,12 @@
 // ReZa 9/25/96
 
 /* $Log: MATByte.h,v $
+/* Revision 1.2  1999/05/04 03:30:50  jimg
+/* Merged no gnu changes
+/*
+/* Revision 1.1.20.1  1999/04/09 05:29:02  brent
+/* convert String.h code to new standard lib <string>
+/*
 /* Revision 1.1  1996/10/31 14:43:19  reza
 /* First release of DODS-matlab servers.
 /*
@@ -26,16 +32,16 @@
 #endif
 
 #include "Byte.h"
-extern Byte * NewByte(const String &n = (char *)0);
+extern Byte * NewByte(const string &n = "");
 
 class MATByte: public Byte {
 public:
-    MATByte(const String &n = (char *)0);
+    MATByte(const string &n = "");
     virtual ~MATByte() {}
 
     virtual BaseType *ptr_duplicate();
 
-    virtual bool read(const String &dataset, int &error);
+    virtual bool read(const string &dataset, int &error);
 };
 
 typedef MATByte * MATBytePtr;
