@@ -37,6 +37,10 @@
 // ReZa 9/25/96
 
 // $Log: MATUrl.cc,v $
+// Revision 1.3  1998/08/06 16:33:01  jimg
+// Fixed misuse of the read(...) member function. Return true if more data
+// is to be read, false is if not and error if an error is detected
+//
 // Revision 1.2  1997/05/01 18:35:56  jimg
 // Added configureation header.
 // Merged changes from interim 2.1.2 version onto main trunk.
@@ -44,7 +48,7 @@
 // Revision 1.1  1996/10/31 14:43:36  reza
 // First release of DODS-matlab servers.
 
-static char rcsid[]={"$Id: MATUrl.cc,v 1.2 1997/05/01 18:35:56 jimg Exp $"};
+static char rcsid[]={"$Id: MATUrl.cc,v 1.3 1998/08/06 16:33:01 jimg Exp $"};
 
 #ifdef __GNUG__
 #pragma implementation
@@ -70,9 +74,8 @@ MATUrl::ptr_duplicate()
 }
 
 bool
-MATUrl::read(const String &, int &)
+MATUrl::read(const String &, int &error)
 {
-    return true;
+    error = 1;
+    return false;
 }
-
-

@@ -37,6 +37,10 @@
 // ReZa 9/28/96
 
 // $Log: MATFloat64.cc,v $
+// Revision 1.4  1998/08/06 16:32:58  jimg
+// Fixed misuse of the read(...) member function. Return true if more data
+// is to be read, false is if not and error if an error is detected
+//
 // Revision 1.3  1997/05/01 18:35:41  jimg
 // Added configureation header.
 // Merged changes from interim 2.1.2 version onto main trunk.
@@ -47,7 +51,7 @@
 // Revision 1.1  1996/10/31 14:43:20  reza
 // First release of DODS-matlab servers.
 
-static char rcsid[]={"$Id: MATFloat64.cc,v 1.3 1997/05/01 18:35:41 jimg Exp $"};
+static char rcsid[]={"$Id: MATFloat64.cc,v 1.4 1998/08/06 16:32:58 jimg Exp $"};
 
 #ifdef __GNUG__
 #pragma implementation
@@ -78,15 +82,8 @@ MATFloat64::ptr_duplicate()
 }
  
 bool
-MATFloat64::read(const String &, int &)
+MATFloat64::read(const String &, int &error)
 {
-    return true;
+    error = 1;
+    return false;
 }
-
-
-
-
-
-
-
-

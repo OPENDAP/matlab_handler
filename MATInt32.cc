@@ -37,6 +37,10 @@
 // ReZa 9/26/96
 
 // $Log: MATInt32.cc,v $
+// Revision 1.4  1998/08/06 16:32:59  jimg
+// Fixed misuse of the read(...) member function. Return true if more data
+// is to be read, false is if not and error if an error is detected
+//
 // Revision 1.3  1997/05/01 18:35:46  jimg
 // Added configureation header.
 // Merged changes from interim 2.1.2 version onto main trunk.
@@ -44,7 +48,7 @@
 // Revision 1.2  1996/11/02 18:46:20  jimg
 // Messd up while making MATUInt32.cc; fixed and resubmitted.
 
-static char rcsid[]={"$Id: MATInt32.cc,v 1.3 1997/05/01 18:35:46 jimg Exp $"};
+static char rcsid[]={"$Id: MATInt32.cc,v 1.4 1998/08/06 16:32:59 jimg Exp $"};
 
 #ifdef __GNUG__
 #pragma implementation
@@ -72,9 +76,8 @@ MATInt32::ptr_duplicate()
 }
 
 bool
-MATInt32::read(const String &, int &)
+MATInt32::read(const String &, int &error)
 {
-    return true;
+    error = 1;
+    return false;
 }
-
-

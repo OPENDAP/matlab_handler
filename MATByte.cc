@@ -37,6 +37,10 @@
 // ReZa 9/28/96
 
 // $Log: MATByte.cc,v $
+// Revision 1.3  1998/08/06 16:32:58  jimg
+// Fixed misuse of the read(...) member function. Return true if more data
+// is to be read, false is if not and error if an error is detected
+//
 // Revision 1.2  1997/05/01 18:35:40  jimg
 // Added configureation header.
 // Merged changes from interim 2.1.2 version onto main trunk.
@@ -44,7 +48,7 @@
 // Revision 1.1  1996/10/31 14:43:18  reza
 // First release of DODS-matlab servers.
 
-static char rcsid[]={"$Id: MATByte.cc,v 1.2 1997/05/01 18:35:40 jimg Exp $"};
+static char rcsid[]={"$Id: MATByte.cc,v 1.3 1998/08/06 16:32:58 jimg Exp $"};
 
 #ifdef __GNUG__
 #pragma implementation
@@ -72,8 +76,9 @@ MATByte::ptr_duplicate()
 }
 
 bool
-MATByte::read(const String &, int &)
+MATByte::read(const String &, int &error)
 {
-  return true;
+    error = 1;
+    return false;
 }
 

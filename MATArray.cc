@@ -37,6 +37,10 @@
 // ReZa 9/28/96
 
 // $Log: MATArray.cc,v $
+// Revision 1.6  1998/08/06 16:32:57  jimg
+// Fixed misuse of the read(...) member function. Return true if more data
+// is to be read, false is if not and error if an error is detected
+//
 // Revision 1.5  1997/05/01 18:30:59  jimg
 // Resurrected version 1.4's fix of the row-major -vs- column-major bug-fix.
 // Added a configuration header.
@@ -53,7 +57,7 @@
 // Revision 1.1  1996/10/31 14:43:16  reza
 // First release of DODS-matlab servers.
 
-static char rcsid[]={"$Id: MATArray.cc,v 1.5 1997/05/01 18:30:59 jimg Exp $"};
+static char rcsid[]={"$Id: MATArray.cc,v 1.6 1998/08/06 16:32:57 jimg Exp $"};
 
 #ifdef __GNUG__
 #pragma implementation
@@ -94,89 +98,83 @@ MATArray::~MATArray()
 }
 
 bool
-MATArray::read(const String &dataset, int &)
+MATArray::read(const String &dataset, int &error)
 {
+    int start, stride, stop;
+    int start_p, stride_p, stop_p;
+    int nline, npix; 
+    MATFile *fp;
+    Matrix *mp;
+    double *DataPtr;
+
+    if (read_p())  // Nothing to do
+	return false;
+
+    fp = matOpen((const char *)dataset, "r");
+    if (fp == NULL){
+	sprintf(Msgt, "MATArray: Could not open file %s", (const char *)dataset);
+	ErrMsgT(Msgt);
+	error = 1;
+	return false;
+    }
   
-  int start, stride, stop;
-  int start_p, stride_p, stop_p;
-  int nline, npix; 
-#if 0
-  char filename[255];
-#endif
+    Pix p = first_dim();
+    start = dimension_start(p,true);
+    stride = dimension_stride(p, true);
+    stop = dimension_stop(p, true); 
 
-  MATFile *fp;
-  Matrix *mp;
-  double *DataPtr;
-
-  if (read_p())  // Nothing to do
-    return true;
-
-#if 0
-  memcpy(filename, (const char *)dataset, ((String)dataset).length()+1);
-#endif
-  fp = matOpen((const char *)dataset, "r");
-  if (fp == NULL){
-    sprintf(Msgt, "MATArray: Could not open file %s", (const char *)dataset);
-    ErrMsgT(Msgt);
-    return false;
-  }
-  
-  Pix p = first_dim();
-  start = dimension_start(p,true);
-  stride = dimension_stride(p, true);
-  stop = dimension_stop(p, true); 
-
-  next_dim(p);
-  start_p = dimension_start(p,true);
-  stride_p = dimension_stride(p, true);
-  stop_p = dimension_stop(p, true); 
+    next_dim(p);
+    start_p = dimension_start(p,true);
+    stride_p = dimension_stride(p, true);
+    stop_p = dimension_stop(p, true); 
 
 
 
-  if(name().contains("_Real")){    // get real part of the complex  matrix 
-    String Rname = name().before("_Real");
-    mp = matGetMatrix(fp,Rname);
-    DataPtr = mxGetPr(mp); 
-  }
-  else{
-    if(name().contains("_Imaginary")){ // get Img part of the complex matrix  
-    String Iname = name().before("_Imaginary");
-    mp = matGetMatrix(fp,Iname);
-    DataPtr = mxGetPi(mp); 
+    if(name().contains("_Real")){    // get real part of the complex  matrix 
+	String Rname = name().before("_Real");
+	mp = matGetMatrix(fp,Rname);
+	DataPtr = mxGetPr(mp); 
     }
     else{
-      mp = matGetMatrix(fp,name());
-      DataPtr = mxGetPr(mp); // get the matrix structure
+	if(name().contains("_Imaginary")){ // get Img part of the complex matrix  
+	    String Iname = name().before("_Imaginary");
+	    mp = matGetMatrix(fp,Iname);
+	    DataPtr = mxGetPi(mp); 
+	}
+	else{
+	    mp = matGetMatrix(fp,name());
+	    DataPtr = mxGetPr(mp); // get the matrix structure
+	}
     }
-  }
 
-  if (DataPtr == NULL) {
-    sprintf(Msgt, "MATArray: Error reading matrix");
-    ErrMsgT(Msgt);
-    return false;
-  }  
+    if (DataPtr == NULL) {
+	sprintf(Msgt, "MATArray: Error reading matrix");
+	ErrMsgT(Msgt);
+	error = 1;
+	return false;
+    }  
 
-  if(start+stop+stride == 0){ //default rows
-    start = 0;
-    stride = 1;
-    stop = mxGetM(mp)-1;
-  }
-  if(start_p+stop_p+stride_p == 0){ //default columns
-    start_p = 0;
-    stride_p = 1;
-    stop_p = mxGetN(mp)-1;
-  }
+    if(start+stop+stride == 0){ //default rows
+	start = 0;
+	stride = 1;
+	stop = mxGetM(mp)-1;
+    }
+    if(start_p+stop_p+stride_p == 0){ //default columns
+	start_p = 0;
+	stride_p = 1;
+	stop_p = mxGetN(mp)-1;
+    }
 
-  int Len = (((stop-start)/stride)+1)*(((stop_p-start_p)/stride_p)+1);
+    int Len = (((stop-start)/stride)+1)*(((stop_p-start_p)/stride_p)+1);
   
-  int Tcount = 0;
-  dods_float64 *BufFlt64 = new dods_float64 [Len]; 	
+    int Tcount = 0;
+    dods_float64 *BufFlt64 = new dods_float64 [Len]; 	
   
     for (int row = start; row <= stop; row +=stride) {	  
-      for(int column = start_p; column <= stop_p; column+=stride_p){
-	*(BufFlt64+Tcount) = (dods_float64) *(DataPtr+row+column*mxGetM(mp));  
-	Tcount++;
-      }
+	for(int column = start_p; column <= stop_p; column+=stride_p){
+	    *(BufFlt64+Tcount) = (dods_float64) *(DataPtr+row+column*mxGetM(mp));  
+	    Tcount++;
+	}
     }
 
     set_read_p(true);      
@@ -185,5 +183,5 @@ MATArray::read(const String &dataset, int &)
 	  
     mxFreeMatrix(mp);
     matClose(fp);
-    return true;
+    return false;
 }

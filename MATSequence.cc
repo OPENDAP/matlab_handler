@@ -37,6 +37,10 @@
 // ReZa 9/25/96
 
 // $Log: MATSequence.cc,v $
+// Revision 1.4  1998/08/06 16:33:00  jimg
+// Fixed misuse of the read(...) member function. Return true if more data
+// is to be read, false is if not and error if an error is detected
+//
 // Revision 1.3  1997/05/01 18:35:49  jimg
 // Added configureation header.
 // Merged changes from interim 2.1.2 version onto main trunk.
@@ -47,7 +51,7 @@
 // Revision 1.1  1996/10/31 14:43:30  reza
 // First release of DODS-matlab servers.
 
-static char rcsid[]={"$Id: MATSequence.cc,v 1.3 1997/05/01 18:35:49 jimg Exp $"};
+static char rcsid[]={"$Id: MATSequence.cc,v 1.4 1998/08/06 16:33:00 jimg Exp $"};
 
 #ifdef _GNUG_
 #pragma implementation
@@ -81,11 +85,8 @@ MATSequence::~MATSequence()
 }
 
 bool 
-MATSequence::read(const String &, int &)
+MATSequence::read(const String &, int &error)
 {
-    return true;
+    error = 1;
+    return false;
 }
-
-
-
-

@@ -37,6 +37,10 @@
 // ReZa 9/25/96
 
 // $Log: MATGrid.cc,v $
+// Revision 1.3  1998/08/06 16:32:59  jimg
+// Fixed misuse of the read(...) member function. Return true if more data
+// is to be read, false is if not and error if an error is detected
+//
 // Revision 1.2  1997/05/01 18:35:44  jimg
 // Added configureation header.
 // Merged changes from interim 2.1.2 version onto main trunk.
@@ -44,7 +48,7 @@
 // Revision 1.1  1996/10/31 14:43:24  reza
 // First release of DODS-matlab servers.
 
-static char rcsid[]={"$Id: MATGrid.cc,v 1.2 1997/05/01 18:35:44 jimg Exp $"};
+static char rcsid[]={"$Id: MATGrid.cc,v 1.3 1998/08/06 16:32:59 jimg Exp $"};
 
 #include "config_mat.h"
 #include "MATGrid.h"
@@ -79,19 +83,21 @@ MATGrid::read(const String &dataset, int &error)
     bool status;
 
     if (read_p()) // nothing to do
-        return true;
+        return false;
 
     // read array elements
     if (!(status = array_var()->read(dataset, error))) 
         return status;
 
     // read maps elements
-    for (Pix p = first_map_var(); p; next_map_var(p)){
-      if(!(status = map_var(p)->read(dataset, error)))
+    for (Pix p = first_map_var(); p; next_map_var(p)) {
+	if(!(status = map_var(p)->read(dataset, error)))
             break;
-      }
-    if( status ) set_read_p(true);
-    return status;
+    }
 
+    if (!status) 
+	set_read_p(true);
+
+    return status;
 }
 
