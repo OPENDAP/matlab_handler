@@ -1,5 +1,5 @@
 
-# $Id: Makefile.in,v 1.7 1997/10/04 00:33:16 jimg Exp $
+# $Id: Makefile.in,v 1.8 1998/02/05 20:14:41 jimg Exp $
 
 @SET_MAKE@
 
@@ -18,7 +18,7 @@ INCS = -I$(DODS_ROOT)/include -I$(MATLAB_ROOT)/extern/include @INCS@
 DEFS = -DUSE_LIBGXX_INLINES -DLOCAL @DEFS@ 
 CPPFLAGS = @CPPFLAGS@ $(DEFS) $(INCS)
 CFLAGS = @CFLAGS@ $(SWAP) $(NETLONG) 
-CXXFLAGS = @CXXFLAGS@ 
+CXXFLAGS = @CXXFLAGS@ -fno-rtti -fno-exceptions
 
 # Make sure that the core software libraries just built can be found without
 # first running make install, but that if `make install' and `make clean' has
