@@ -10,7 +10,7 @@
 
 #include "config_mat.h"
 
-static char rcsid[] not_used ={"$Id: MatLabUtil.cc,v 1.10 2003/02/10 22:42:05 jimg Exp $"};
+static char rcsid[] not_used ={"$Id: MatLabUtil.cc,v 1.11 2003/05/02 16:56:35 jimg Exp $"};
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,7 +18,6 @@ static char rcsid[] not_used ={"$Id: MatLabUtil.cc,v 1.10 2003/02/10 22:42:05 ji
 #include <string.h>
 
 #include <iostream>
-#include <stdiostream.h>
 #include <string>
 
 #include "InternalErr.h"
@@ -154,6 +153,10 @@ read_attributes(DAS &das_table, string filename, string *err_msg)
 }
 
 // $Log: MatLabUtil.cc,v $
+// Revision 1.11  2003/05/02 16:56:35  jimg
+// Removed #include <stdionstream> as it is no longer used and fails to compile
+// with gcc 3.2.
+//
 // Revision 1.10  2003/02/10 22:42:05  jimg
 // Merged with 3.2.6.
 //
