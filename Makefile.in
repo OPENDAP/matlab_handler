@@ -1,5 +1,5 @@
 
-# $Id: Makefile.in,v 1.21 2000/10/10 00:03:07 jimg Exp $
+# $Id: Makefile.in,v 1.22 2000/10/20 00:13:30 jimg Exp $
 
 @SET_MAKE@
 
@@ -141,7 +141,6 @@ install: all
 	$(INSTALL_PROGRAM) -s mat_das $(etcdir)
 	$(INSTALL_PROGRAM) -s mat_dds $(etcdir)
 	$(INSTALL_PROGRAM) -s mat_dods $(etcdir)
-	$(INSTALL_PROGRAM) nph-mat $(etcdir)
 
 clean:	
 	-rm -f *.o *.sum *.log *~ core
@@ -150,7 +149,7 @@ clean:
 distclean:
 	-rm -f *.o *.sum *.log *~ core
 	-rm -f $(PROG) 
-	-rm -f config.status config.log config.cache nph-mat
+	-rm -f config.status config.log config.cache
 	-rm -f site.exp
 
 # This is a special tar target because it builds not only the tar file for
