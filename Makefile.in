@@ -1,5 +1,5 @@
 
-# $Id: Makefile.in,v 1.4 1997/05/01 18:35:58 jimg Exp $
+# $Id: Makefile.in,v 1.5 1997/05/01 23:24:39 jimg Exp $
 
 @SET_MAKE@
 
@@ -78,7 +78,7 @@ MATSRC = MATArray.cc MATByte.cc MATFloat64.cc MATFunction.cc MATGrid.cc \
 MATOBJ = MATArray.o MATByte.o MATFloat64.o MATFunction.o MATGrid.o MATInt32.o \
 	 MATList.o MATSequence.o MATStr.o MATStructure.o MATUrl.o MATUInt32.o
 
-SSRCS = mat_das.cc mat_dds.cc mat_dods.cc DspDodsUtilCc.cc DspDodsUtilC.c $(MATSRC)
+SSRCS = mat_das.cc mat_dds.cc mat_dods.cc $(MATSRC)
 DASOBJS = mat_das.o  MatLabUtil.o $(MATOBJ)
 DDSOBJS = mat_dds.o MatLabUtil.o $(MATOBJ)
 SRVOBJS = mat_dods.o  MatLabUtil.o $(MATOBJ)
