@@ -1,7 +1,7 @@
 
 dnl Process this file with autoconf to produce a configure script.
 
-AC_REVISION($Id: configure.in,v 1.7 1998/07/13 20:28:08 jimg Exp $)
+AC_REVISION($Id: configure.in,v 1.8 1998/09/17 18:45:58 jimg Exp $)
 AC_INIT(MATArray.cc)
 AC_CONFIG_HEADER(config_mat.h)
 AC_CONFIG_AUX_DIR(../../etc)
@@ -78,6 +78,7 @@ dnl c++ code. This has no effect with matlab 4.
 AC_DEFINE(V4_COMPAT)
 
 DODS_COMPRESSION_LIB
+DODS_RX_LIB
 DODS_WWW_LIB
 DODS_EXPECT_LIB
 
