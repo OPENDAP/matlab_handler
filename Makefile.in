@@ -1,5 +1,5 @@
 
-# $Id: Makefile.in,v 1.15 1999/05/04 03:30:51 jimg Exp $
+# $Id: Makefile.in,v 1.16 1999/05/06 00:08:15 edavis Exp $
 
 @SET_MAKE@
 
@@ -50,6 +50,9 @@ SHELL = /bin/sh
 srcdir = @srcdir@
 version = @VERSION@
 dir = math-dods-@VERSION@
+
+COMPONENT_NAME = DODS Matlab Server
+AWK = @AWK@
 
 # testsuite specifics
 RUNTEST= runtest
@@ -139,6 +142,14 @@ update-version: check-version
 	if [ ! -d ../$(dir) ]; then \
 	    mv ../math-dods* ../$(dir);\
 	fi
+	touch $(DODS_ROOT)/VERSION; cat $(DODS_ROOT)/VERSION | \
+	  $(AWK) ' \
+	    BEGIN { found = 0 } \
+	    { if ( $$0 ~ /^$(COMPONENT_NAME):/) \
+	        { print "$(COMPONENT_NAME):", $(version); found = 1 } \
+	      else { print $$0 } } \
+	    END { if ( ! found) { print "$(COMPONENT_NAME):", $(version) } \
+	        }' > $(DODS_ROOT)/VERSION
 
 # Compare the version encoded in this Makefile (set by configure) with the
 # version in version.h. The version make variable is set up near the top of
