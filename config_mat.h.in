@@ -50,8 +50,13 @@
 #define not_used 
 #endif
 
+#undef DODS_SERVER_VERSION
+
 /* 
  * $Log: config_mat.h.in,v $
+ * Revision 1.8  2003/05/14 22:45:58  jimg
+ * Updated configure, et c., so taht DODS_SERVER_VERSION is defined.
+ *
  * Revision 1.7  2003/02/10 22:42:05  jimg
  * Merged with 3.2.6.
  *

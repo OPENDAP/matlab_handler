@@ -2,7 +2,7 @@
 dnl -*- m4 -*-
 dnl Process this file with autoconf to produce a configure script.
 
-AC_REVISION($Id: configure.in,v 1.14 2003/02/10 22:42:05 jimg Exp $)
+AC_REVISION($Id: configure.in,v 1.15 2003/05/14 22:45:58 jimg Exp $)
 AC_INIT(MATArray.cc)
 AC_CONFIG_HEADER(config_mat.h)
 AC_CONFIG_AUX_DIR(../../etc)
@@ -11,6 +11,9 @@ dnl the variable `dir' is used as a basename for the directory tar file
 
 DODS_GET_DODS_ROOT
 DODS_DIRECTORY_VERSION
+
+DODS_SERVER_VERSION=\"mat-dods/$VERSION\"
+AC_DEFINE_UNQUOTED(DODS_SERVER_VERSION, $DODS_SERVER_VERSION)
 
 dnl the command to use to generate dependencies for makefiles
 
