@@ -1,5 +1,5 @@
 
-# $Id: Makefile.in,v 1.1 1996/10/31 14:43:39 reza Exp $
+# $Id: Makefile.in,v 1.2 1996/11/02 18:44:17 jimg Exp $
 
 @SET_MAKE@
 
@@ -10,21 +10,25 @@
 PROG = mat_das mat_dds mat_dods
 DODS_ROOT = ../..
 
-INCS = -I$(DODS_ROOT)/include -I$(DODS_ROOT)/include/WWW 
-DEFS = -DUSE_LIBGXX_INLINES -DLOCAL @SWAP@ @NETLONG@ @DEFS@ 
+WWW_ROOT=@WWW_ROOT@
+MATLAB_ROOT=@MATLAB_ROOT@
+OS=@OS@
+
+INCS = -I$(DODS_ROOT)/include -I$(MATLAB_ROOT)/extern/include @INCS@
+DEFS = -DUSE_LIBGXX_INLINES -DLOCAL @DEFS@ 
 CPPFLAGS = @CPPFLAGS@ $(DEFS) $(INCS)
 CFLAGS = @CFLAGS@ $(SWAP) $(NETLONG) 
-CXXFLAGS = @CXXFLAGS@ -I/usr/reza/sisic/matlab/extern/include
+CXXFLAGS = @CXXFLAGS@ 
 
 # Make sure that the core software libraries just built can be found without
 # first running make install, but that if `make install' and `make clean' has
 # been run those libraries will be found in the `lib' directory.
-LDFLAGS = @LDFLAGS@ -L. -L$(DODS_ROOT)/lib -L/usr/reza/sisic/matlab/extern/lib/alpha
+LDFLAGS = @LDFLAGS@ -L. -L$(DODS_ROOT)/lib -L$(MATLAB_ROOT)/extern/lib/$(OS)
 
 LFLAGS=-8
 YFLAGS=-d
 
-LIBS = -ldap++ -lwww -lexpect5.20 -ltcl7.5 -lmat -lm @LIBS@
+LIBS = -ldap++ -lwww -lmat -lm @LIBS@
 
 # Set the instalation directories; prefix can be set on the command line
 # during Makefile construction with `./configure --prefix /my/choice'
@@ -67,10 +71,11 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
 TAGS = etags
 
 MATSRC = MATArray.cc MATByte.cc MATFloat64.cc MATFunction.cc MATGrid.cc \
-	MATInt32.cc MATList.cc MATSequence.cc MATStr.cc MATStructure.cc MATUrl.cc
+	 MATInt32.cc MATList.cc MATSequence.cc MATStr.cc MATStructure.cc \
+	 MATUrl.cc MATUInt32.cc
 
 MATOBJ = MATArray.o MATByte.o MATFloat64.o MATFunction.o MATGrid.o MATInt32.o \
-	MATList.o MATSequence.o MATStr.o MATStructure.o MATUrl.o
+	 MATList.o MATSequence.o MATStr.o MATStructure.o MATUrl.o MATUInt32.o
 
 SSRCS = mat_das.cc mat_dds.cc mat_dods.cc DspDodsUtilCc.cc DspDodsUtilC.c $(MATSRC)
 DASOBJS = mat_das.o  MatLabUtil.o $(MATOBJ)
