@@ -37,6 +37,9 @@
 // ReZa 9/28/96
 
 // $Log: MATArray.cc,v $
+// Revision 1.3  1996/12/16 21:40:50  reza
+// *** empty log message ***
+//
 // Revision 1.2  1996/11/13 05:13:06  reza
 // Added complex matrix capability.
 //
@@ -46,7 +49,7 @@
 //
 //
 
-static char rcsid[]={"$Id: MATArray.cc,v 1.2 1996/11/13 05:13:06 reza Exp $"};
+static char rcsid[]={"$Id: MATArray.cc,v 1.3 1996/12/16 21:40:50 reza Exp $"};
 
 #ifdef __GNUG__
 #pragma implementation
@@ -147,12 +150,12 @@ MATArray::read(const String &dataset, int &)
   if(start+stop+stride == 0){ //default rows
     start = 0;
     stride = 1;
-    stop = mxGetN(mp)-1;
+    stop = mxGetM(mp)-1;
   }
   if(start_p+stop_p+stride_p == 0){ //default columns
     start_p = 0;
     stride_p = 1;
-    stop_p = mxGetM(mp)-1;
+    stop_p = mxGetN(mp)-1;
   }
 
   int Len = (((stop-start)/stride)+1)*(((stop_p-start_p)/stride_p)+1);
@@ -175,4 +178,3 @@ MATArray::read(const String &dataset, int &)
     matClose(fp);
     return true;
 }
-
