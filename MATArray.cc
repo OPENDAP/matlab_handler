@@ -1,5 +1,5 @@
 /*
-  Copyright 1996 The University of Rhode Island and The Massachusetts
+  Copyright 1996, 1997 The University of Rhode Island and The Massachusetts
   Institute of Technology
 
   Portions of this software were developed by the Graduate School of
@@ -37,6 +37,10 @@
 // ReZa 9/28/96
 
 // $Log: MATArray.cc,v $
+// Revision 1.5  1997/05/01 18:30:59  jimg
+// Resurrected version 1.4's fix of the row-major -vs- column-major bug-fix.
+// Added a configuration header.
+//
 // Revision 1.4  1996/12/18 21:07:45  reza
 // Made array indices always consistent (i.e. Row, Column).
 //
@@ -48,11 +52,8 @@
 //
 // Revision 1.1  1996/10/31 14:43:16  reza
 // First release of DODS-matlab servers.
-//
-//
-//
 
-static char rcsid[]={"$Id: MATArray.cc,v 1.4 1996/12/18 21:07:45 reza Exp $"};
+static char rcsid[]={"$Id: MATArray.cc,v 1.5 1997/05/01 18:30:59 jimg Exp $"};
 
 #ifdef __GNUG__
 #pragma implementation
@@ -65,6 +66,7 @@ static char rcsid[]={"$Id: MATArray.cc,v 1.4 1996/12/18 21:07:45 reza Exp $"};
 #include <iostream.h>
 #include <assert.h>
 
+#include "config_mat.h"
 #include "cgi_util.h"
 #include "MATArray.h"
 #include "mat.h"
@@ -98,7 +100,9 @@ MATArray::read(const String &dataset, int &)
   int start, stride, stop;
   int start_p, stride_p, stop_p;
   int nline, npix; 
+#if 0
   char filename[255];
+#endif
 
   MATFile *fp;
   Matrix *mp;
@@ -107,10 +111,12 @@ MATArray::read(const String &dataset, int &)
   if (read_p())  // Nothing to do
     return true;
 
+#if 0
   memcpy(filename, (const char *)dataset, ((String)dataset).length()+1);
-  fp = matOpen(filename, "r");
+#endif
+  fp = matOpen((const char *)dataset, "r");
   if (fp == NULL){
-    sprintf(Msgt, "MATArray: Could not open file %s",filename);
+    sprintf(Msgt, "MATArray: Could not open file %s", (const char *)dataset);
     ErrMsgT(Msgt);
     return false;
   }
