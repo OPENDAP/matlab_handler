@@ -1,93 +1,27 @@
-/*
-  Copyright 1996,1997 The University of Rhode Island and The Massachusetts
-  Institute of Technology
 
-  Portions of this software were developed by the Graduate School of
-  Oceanography (GSO) at the University of Rhode Island (URI) in collaboration
-  with The Massachusetts Institute of Technology (MIT).
-
-  Access and use of this software shall impose the following obligations and
-  understandings on the user. The user is granted the right, without any fee
-  or cost, to use, copy, modify, alter, enhance and distribute this software,
-  and any derivative works thereof, and its supporting documentation for any
-  purpose whatsoever, provided that this entire notice appears in all copies
-  of the software, derivative works and supporting documentation.  Further,
-  the user agrees to credit URI/MIT in any publications that result from the
-  use of this software or in any product that includes this software. The
-  names URI, MIT and/or GSO, however, may not be used in any advertising or
-  publicity to endorse or promote any products or commercial entity unless
-  specific written permission is obtained from URI/MIT. The user also
-  understands that URI/MIT is not obligated to provide the user with any
-  support, consulting, training or assistance of any kind with regard to the
-  use, operation and performance of this software nor to provide the user
-  with any updates, revisions, new versions or "bug fixes".
-
-  THIS SOFTWARE IS PROVIDED BY URI/MIT "AS IS" AND ANY EXPRESS OR IMPLIED
-  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
-  EVENT SHALL URI/MIT BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL
-  DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
-  PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTUOUS
-  ACTION, ARISING OUT OF OR IN CONNECTION WITH THE ACCESS, USE OR PERFORMANCE
-  OF THIS SOFTWARE.
-*/
+// (c) COPYRIGHT 1996-2000 URI
+// 
+// See the file COPYRIGHT.
 
 // Matlab server utility routines
 //
 // ReZa 9/28/96
 //
 
-// $Log: MatLabUtil.cc,v $
-// Revision 1.8  1999/05/04 03:30:51  jimg
-// Merged no gnu changes
-//
-// Revision 1.7.8.2  1999/05/03 00:39:15  brent
-// convert String.h code to new standard lib <string>
-//
-// Revision 1.7.8.1  1999/04/09 05:29:01  brent
-// convert String.h code to new standard lib <string>
-//
-// Revision 1.7  1997/12/30 22:47:26  jimg
-// Modified the read_descriptions() and read_attributes() functions so that they
-// return boolean conditions, error messages and DAS/DDS objects. These work
-// better with the new filter main()s using the DODSFilter class.
-//
-// Revision 1.6  1997/10/04 00:33:17  jimg
-// Release 2.14c fixes
-//
-// Revision 1.5.6.1  1997/09/03 22:19:02  jimg
-// Removed the global objects das and dds_table. Now the function sin this file
-// allocate pointer objects and return those pointers.
-//
-// Revision 1.5  1997/06/06 03:56:36  jimg
-// Changed read_descriptors() so that String casts to const char * worked
-// properly.
-//
-// Revision 1.4  1997/05/01 18:35:59  jimg
-// Added configureation header.
-// Merged changes from interim 2.1.2 version onto main trunk.
-//
-// Revision 1.3  1996/12/16 22:32:55  reza
-// Made array indices always consistent (i.e. Row, Column).
-//
-// Revision 1.2  1996/11/13 05:13:07  reza
-// Added complex matrix capability.
-//
-// Revision 1.1  1996/10/31 14:43:40  reza
-// First release of DODS-matlab servers.
+#include "config_mat.h"
 
-static char rcsid[]={"$Id: MatLabUtil.cc,v 1.8 1999/05/04 03:30:51 jimg Exp $"};
+static char rcsid[] not_used ={"$Id: MatLabUtil.cc,v 1.9 2000/10/10 00:03:07 jimg Exp $"};
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-#include <assert.h>
-#include <iostream.h>
+
+#include <iostream>
 #include <stdiostream.h>
 #include <string>
 
-#include "config_mat.h"
+#include "InternalErr.h"
 #include "DAS.h"
 #include "DDS.h"
 #include "MATArray.h"
@@ -119,7 +53,8 @@ MakeMatrix(DDS *dds_table, string name, int row, int column)
     ar->append_dim(row,DimName+"_row");
     ar->append_dim(column,DimName+"_column");
 
-    assert(dds_table);
+    if (!dds_table)
+      throw InternalErr(__FILE__, __LINE__, "NULL DDS object.");
 
     dds_table->add_var(ar);
 }
@@ -215,3 +150,49 @@ read_attributes(DAS &das_table, string filename, string *err_msg)
 
     return true;
 }
+
+// $Log: MatLabUtil.cc,v $
+// Revision 1.9  2000/10/10 00:03:07  jimg
+// Moved CVS Logs to the end of each file.
+// Added code to handle exceptions thrown by the dap library.
+// Added exceptions to the read methods.
+// Changed the definition of the read methods to match the dap library.
+//
+// Revision 1.8  1999/05/04 03:30:51  jimg
+// Merged no gnu changes
+//
+// Revision 1.7.8.2  1999/05/03 00:39:15  brent
+// convert String.h code to new standard lib <string>
+//
+// Revision 1.7.8.1  1999/04/09 05:29:01  brent
+// convert String.h code to new standard lib <string>
+//
+// Revision 1.7  1997/12/30 22:47:26  jimg
+// Modified the read_descriptions() and read_attributes() functions so that they
+// return boolean conditions, error messages and DAS/DDS objects. These work
+// better with the new filter main()s using the DODSFilter class.
+//
+// Revision 1.6  1997/10/04 00:33:17  jimg
+// Release 2.14c fixes
+//
+// Revision 1.5.6.1  1997/09/03 22:19:02  jimg
+// Removed the global objects das and dds_table. Now the function sin this file
+// allocate pointer objects and return those pointers.
+//
+// Revision 1.5  1997/06/06 03:56:36  jimg
+// Changed read_descriptors() so that String casts to const char * worked
+// properly.
+//
+// Revision 1.4  1997/05/01 18:35:59  jimg
+// Added configureation header.
+// Merged changes from interim 2.1.2 version onto main trunk.
+//
+// Revision 1.3  1996/12/16 22:32:55  reza
+// Made array indices always consistent (i.e. Row, Column).
+//
+// Revision 1.2  1996/11/13 05:13:07  reza
+// Added complex matrix capability.
+//
+// Revision 1.1  1996/10/31 14:43:40  reza
+// First release of DODS-matlab servers.
+

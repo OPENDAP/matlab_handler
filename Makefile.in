@@ -1,5 +1,5 @@
 
-# $Id: Makefile.in,v 1.20 1999/11/05 05:50:20 jimg Exp $
+# $Id: Makefile.in,v 1.21 2000/10/10 00:03:07 jimg Exp $
 
 @SET_MAKE@
 
@@ -15,7 +15,7 @@ MATLAB_ROOT=@MATLAB_ROOT@
 OS=@OS@
 
 INCS = -I$(DODS_ROOT)/include -I$(MATLAB_ROOT)/extern/include @INCS@
-DEFS = -DUSE_LIBGXX_INLINES -DLOCAL @DEFS@ 
+DEFS = @DEFS@
 CPPFLAGS = @CPPFLAGS@ $(DEFS) $(INCS)
 CFLAGS = @CFLAGS@ $(SWAP) $(NETLONG) 
 CXXFLAGS = @CXXFLAGS@
@@ -211,24 +211,11 @@ depend:
 
 # DO NOT DELETE; depend depends on this line.
 mat_das.o: mat_das.cc config_mat.h ../../include/DAS.h \
- ../../include/SLList.h ../../include/AttrTable.h \
- ../../include/config_dap.h ../../include/cgi_util.h \
- ../../include/Connect.h ../../include/DDS.h ../../include/BaseType.h \
- ../../include/Clause.h ../../include/expr.h ../../include/RValue.h \
- ../../include/debug.h ../../include/Error.h ../../include/util.h \
- ../../include/Byte.h ../../include/Int16.h ../../include/UInt16.h \
- ../../include/Int32.h ../../include/UInt32.h ../../include/Float32.h \
- ../../include/Float64.h ../../include/Str.h \
- ../../include/dods-limits.h ../../include/Url.h ../../include/Array.h \
- ../../include/Vector.h ../../include/List.h ../../include/Structure.h \
- ../../include/Sequence.h ../../include/Grid.h \
- ../../include/DODSFilter.h
-mat_dds.o: mat_dds.cc config_mat.h ../../include/DDS.h \
- ../../include/config_dap.h ../../include/BaseType.h \
- ../../include/Clause.h ../../include/expr.h ../../include/RValue.h \
- ../../include/debug.h ../../include/cgi_util.h \
- ../../include/Connect.h ../../include/DAS.h ../../include/AttrTable.h \
- ../../include/Error.h ../../include/util.h ../../include/Byte.h \
+ ../../include/AttrTable.h ../../include/Error.h \
+ ../../include/cgi_util.h ../../include/Connect.h ../../include/DDS.h \
+ ../../include/BaseType.h ../../include/Clause.h ../../include/expr.h \
+ ../../include/RValue.h ../../include/debug.h ../../include/util.h \
+ ../../include/Byte.h ../../include/dods-datatypes.h \
  ../../include/Int16.h ../../include/UInt16.h ../../include/Int32.h \
  ../../include/UInt32.h ../../include/Float32.h \
  ../../include/Float64.h ../../include/Str.h \
@@ -236,12 +223,24 @@ mat_dds.o: mat_dds.cc config_mat.h ../../include/DDS.h \
  ../../include/Vector.h ../../include/List.h ../../include/Structure.h \
  ../../include/Sequence.h ../../include/Grid.h \
  ../../include/DODSFilter.h
+mat_dds.o: mat_dds.cc config_mat.h ../../include/Error.h \
+ ../../include/DDS.h ../../include/BaseType.h ../../include/Clause.h \
+ ../../include/expr.h ../../include/RValue.h ../../include/debug.h \
+ ../../include/cgi_util.h ../../include/Connect.h ../../include/DAS.h \
+ ../../include/AttrTable.h ../../include/util.h ../../include/Byte.h \
+ ../../include/dods-datatypes.h ../../include/Int16.h \
+ ../../include/UInt16.h ../../include/Int32.h ../../include/UInt32.h \
+ ../../include/Float32.h ../../include/Float64.h ../../include/Str.h \
+ ../../include/dods-limits.h ../../include/Url.h ../../include/Array.h \
+ ../../include/Vector.h ../../include/List.h ../../include/Structure.h \
+ ../../include/Sequence.h ../../include/Grid.h \
+ ../../include/DODSFilter.h
 mat_dods.o: mat_dods.cc config_mat.h ../../include/cgi_util.h \
- ../../include/config_dap.h ../../include/Connect.h \
- ../../include/DAS.h ../../include/AttrTable.h ../../include/DDS.h \
- ../../include/BaseType.h ../../include/Clause.h ../../include/expr.h \
- ../../include/RValue.h ../../include/debug.h ../../include/Error.h \
- ../../include/util.h ../../include/Byte.h ../../include/Int16.h \
+ ../../include/Connect.h ../../include/DAS.h ../../include/AttrTable.h \
+ ../../include/DDS.h ../../include/BaseType.h ../../include/Clause.h \
+ ../../include/expr.h ../../include/RValue.h ../../include/debug.h \
+ ../../include/Error.h ../../include/util.h ../../include/Byte.h \
+ ../../include/dods-datatypes.h ../../include/Int16.h \
  ../../include/UInt16.h ../../include/Int32.h ../../include/UInt32.h \
  ../../include/Float32.h ../../include/Float64.h ../../include/Str.h \
  ../../include/dods-limits.h ../../include/Url.h ../../include/Array.h \
@@ -249,54 +248,60 @@ mat_dods.o: mat_dods.cc config_mat.h ../../include/cgi_util.h \
  ../../include/Sequence.h ../../include/Grid.h \
  ../../include/DODSFilter.h
 MATArray.o: MATArray.cc config_mat.h ../../include/cgi_util.h \
- ../../include/config_dap.h ../../include/Connect.h \
- ../../include/DAS.h ../../include/AttrTable.h ../../include/DDS.h \
- ../../include/BaseType.h ../../include/Clause.h ../../include/expr.h \
- ../../include/RValue.h ../../include/debug.h ../../include/Error.h \
- ../../include/util.h ../../include/Byte.h ../../include/Int16.h \
+ ../../include/Connect.h ../../include/DAS.h ../../include/AttrTable.h \
+ ../../include/DDS.h ../../include/BaseType.h ../../include/Clause.h \
+ ../../include/expr.h ../../include/RValue.h ../../include/debug.h \
+ ../../include/Error.h ../../include/util.h ../../include/Byte.h \
+ ../../include/dods-datatypes.h ../../include/Int16.h \
  ../../include/UInt16.h ../../include/Int32.h ../../include/UInt32.h \
  ../../include/Float32.h ../../include/Float64.h ../../include/Str.h \
  ../../include/dods-limits.h ../../include/Url.h ../../include/Array.h \
  ../../include/Vector.h ../../include/List.h ../../include/Structure.h \
  ../../include/Sequence.h ../../include/Grid.h MATArray.h \
- /usr/local/matlab5/extern/include/mat.h \
- /usr/local/matlab5/extern/include/matrix.h \
- /usr/local/matlab5/extern/include/tmwtypes.h
-MATByte.o: MATByte.cc config_mat.h MATByte.h ../../include/Byte.h \
- ../../include/BaseType.h ../../include/config_dap.h
-MATFloat64.o: MATFloat64.cc config_mat.h MATFloat64.h \
- ../../include/Float64.h ../../include/BaseType.h \
- ../../include/config_dap.h MatSeq.h
+ /usr/local/matlab/extern/include/mat.h \
+ /usr/local/matlab/extern/include/matrix.h \
+ /usr/local/matlab/extern/include/tmwtypes.h
+MATByte.o: MATByte.cc config_mat.h ../../include/InternalErr.h \
+ ../../include/Error.h MATByte.h ../../include/Byte.h \
+ ../../include/dods-datatypes.h ../../include/BaseType.h
+MATFloat64.o: MATFloat64.cc config_mat.h ../../include/InternalErr.h \
+ ../../include/Error.h MATFloat64.h ../../include/Float64.h \
+ ../../include/dods-datatypes.h ../../include/BaseType.h MatSeq.h
 MATGrid.o: MATGrid.cc config_mat.h MATGrid.h ../../include/Grid.h \
- ../../include/BaseType.h ../../include/config_dap.h
-MATInt32.o: MATInt32.cc config_mat.h MATInt32.h ../../include/Int32.h \
- ../../include/BaseType.h ../../include/config_dap.h
-MATList.o: MATList.cc config_mat.h MATList.h ../../include/List.h \
+ ../../include/BaseType.h
+MATInt32.o: MATInt32.cc config_mat.h ../../include/InternalErr.h \
+ ../../include/Error.h MATInt32.h ../../include/Int32.h \
+ ../../include/dods-datatypes.h ../../include/BaseType.h
+MATList.o: MATList.cc config_mat.h ../../include/InternalErr.h \
+ ../../include/Error.h MATList.h ../../include/List.h \
  ../../include/dods-limits.h ../../include/Vector.h \
- ../../include/BaseType.h ../../include/config_dap.h \
+ ../../include/BaseType.h ../../include/DDS.h ../../include/Clause.h \
+ ../../include/expr.h ../../include/RValue.h ../../include/debug.h
+MATSequence.o: MATSequence.cc config_mat.h ../../include/InternalErr.h \
+ ../../include/Error.h MATSequence.h ../../include/Sequence.h \
+ ../../include/BaseType.h
+MATStr.o: MATStr.cc config_mat.h ../../include/dods-datatypes.h \
+ ../../include/InternalErr.h ../../include/Error.h MATStr.h \
+ ../../include/Str.h ../../include/dods-limits.h \
+ ../../include/BaseType.h MatSeq.h
+MATStructure.o: MATStructure.cc config_mat.h \
+ ../../include/InternalErr.h ../../include/Error.h MATStructure.h \
+ ../../include/Structure.h ../../include/BaseType.h \
  ../../include/DDS.h ../../include/Clause.h ../../include/expr.h \
  ../../include/RValue.h ../../include/debug.h
-MATSequence.o: MATSequence.cc config_mat.h MATSequence.h \
- ../../include/Sequence.h ../../include/BaseType.h \
- ../../include/config_dap.h
-MATStr.o: MATStr.cc config_mat.h MATStr.h ../../include/Str.h \
+MATUrl.o: MATUrl.cc config_mat.h ../../include/InternalErr.h \
+ ../../include/Error.h MATUrl.h ../../include/Url.h \
  ../../include/dods-limits.h ../../include/BaseType.h \
- ../../include/config_dap.h MatSeq.h
-MATStructure.o: MATStructure.cc config_mat.h MATStructure.h \
- ../../include/Structure.h ../../include/BaseType.h \
- ../../include/config_dap.h ../../include/DDS.h ../../include/Clause.h \
- ../../include/expr.h ../../include/RValue.h ../../include/debug.h
-MATUrl.o: MATUrl.cc config_mat.h MATUrl.h ../../include/Url.h \
- ../../include/dods-limits.h ../../include/BaseType.h \
- ../../include/config_dap.h ../../include/Str.h
-MATUInt32.o: MATUInt32.cc config_mat.h MATUInt32.h \
- ../../include/UInt32.h ../../include/BaseType.h \
- ../../include/config_dap.h
-MATInt16.o: MATInt16.cc config_mat.h MATInt16.h ../../include/Int16.h \
- ../../include/BaseType.h ../../include/config_dap.h
-MATUInt16.o: MATUInt16.cc config_mat.h MATUInt16.h \
- ../../include/UInt16.h ../../include/BaseType.h \
- ../../include/config_dap.h
-MATFloat32.o: MATFloat32.cc config_mat.h MATFloat32.h \
- ../../include/Float32.h ../../include/BaseType.h \
- ../../include/config_dap.h
+ ../../include/Str.h
+MATUInt32.o: MATUInt32.cc config_mat.h ../../include/InternalErr.h \
+ ../../include/Error.h MATUInt32.h ../../include/UInt32.h \
+ ../../include/dods-datatypes.h ../../include/BaseType.h
+MATInt16.o: MATInt16.cc config_mat.h ../../include/InternalErr.h \
+ ../../include/Error.h MATInt16.h ../../include/Int16.h \
+ ../../include/dods-datatypes.h ../../include/BaseType.h
+MATUInt16.o: MATUInt16.cc config_mat.h ../../include/InternalErr.h \
+ ../../include/Error.h MATUInt16.h ../../include/UInt16.h \
+ ../../include/dods-datatypes.h ../../include/BaseType.h
+MATFloat32.o: MATFloat32.cc config_mat.h ../../include/InternalErr.h \
+ ../../include/Error.h MATFloat32.h ../../include/Float32.h \
+ ../../include/dods-datatypes.h ../../include/BaseType.h

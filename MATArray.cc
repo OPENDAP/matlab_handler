@@ -1,72 +1,15 @@
-/*
-  Copyright 1996, 1997 The University of Rhode Island and The Massachusetts
-  Institute of Technology
 
-  Portions of this software were developed by the Graduate School of
-  Oceanography (GSO) at the University of Rhode Island (URI) in collaboration
-  with The Massachusetts Institute of Technology (MIT).
-
-  Access and use of this software shall impose the following obligations and
-  understandings on the user. The user is granted the right, without any fee
-  or cost, to use, copy, modify, alter, enhance and distribute this software,
-  and any derivative works thereof, and its supporting documentation for any
-  purpose whatsoever, provided that this entire notice appears in all copies
-  of the software, derivative works and supporting documentation.  Further,
-  the user agrees to credit URI/MIT in any publications that result from the
-  use of this software or in any product that includes this software. The
-  names URI, MIT and/or GSO, however, may not be used in any advertising or
-  publicity to endorse or promote any products or commercial entity unless
-  specific written permission is obtained from URI/MIT. The user also
-  understands that URI/MIT is not obligated to provide the user with any
-  support, consulting, training or assistance of any kind with regard to the
-  use, operation and performance of this software nor to provide the user
-  with any updates, revisions, new versions or "bug fixes".
-
-  THIS SOFTWARE IS PROVIDED BY URI/MIT "AS IS" AND ANY EXPRESS OR IMPLIED
-  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
-  EVENT SHALL URI/MIT BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL
-  DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
-  PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTUOUS
-  ACTION, ARISING OUT OF OR IN CONNECTION WITH THE ACCESS, USE OR PERFORMANCE
-  OF THIS SOFTWARE.
-*/
+// (c) COPYRIGHT 1996-2000 URI
+// 
+// See the file COPYRIGHT.
 
 // matlab sub-class implementation for MATByte,..MATGrid.
 //
 // ReZa 9/28/96
 
-// $Log: MATArray.cc,v $
-// Revision 1.7  1999/05/04 03:30:49  jimg
-// Merged no gnu changes
-//
-// Revision 1.6.4.2  1999/05/03 00:39:15  brent
-// convert String.h code to new standard lib <string>
-//
-// Revision 1.6.4.1  1999/04/09 05:29:00  brent
-// convert String.h code to new standard lib <string>
-//
-// Revision 1.6  1998/08/06 16:32:57  jimg
-// Fixed misuse of the read(...) member function. Return true if more data
-// is to be read, false is if not and error if an error is detected
-//
-// Revision 1.5  1997/05/01 18:30:59  jimg
-// Resurrected version 1.4's fix of the row-major -vs- column-major bug-fix.
-// Added a configuration header.
-//
-// Revision 1.4  1996/12/18 21:07:45  reza
-// Made array indices always consistent (i.e. Row, Column).
-//
-// Revision 1.3  1996/12/16 21:40:50  reza
-// *** empty log message ***
-//
-// Revision 1.2  1996/11/13 05:13:06  reza
-// Added complex matrix capability.
-//
-// Revision 1.1  1996/10/31 14:43:16  reza
-// First release of DODS-matlab servers.
+#include "config_mat.h"
 
-static char rcsid[]={"$Id: MATArray.cc,v 1.7 1999/05/04 03:30:49 jimg Exp $"};
+static char rcsid[] not_used ={"$Id: MATArray.cc,v 1.8 2000/10/10 00:03:07 jimg Exp $"};
 
 #ifdef __GNUG__
 #pragma implementation
@@ -76,12 +19,12 @@ static char rcsid[]={"$Id: MATArray.cc,v 1.7 1999/05/04 03:30:49 jimg Exp $"};
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-#include <iostream.h>
-#include <assert.h>
+
+#include <iostream>
 #include <string>
 
-#include "config_mat.h"
 #include "cgi_util.h"
+#include "Error.h"
 #include "MATArray.h"
 #include "mat.h"
 
@@ -108,7 +51,7 @@ MATArray::~MATArray()
 }
 
 bool
-MATArray::read(const string &dataset, int &error)
+MATArray::read(const string &dataset)
 {
     int start, stride, stop;
     int start_p, stride_p, stop_p;
@@ -125,8 +68,7 @@ MATArray::read(const string &dataset, int &error)
     if (fp == NULL){
 	sprintf(Msgt, "MATArray: Could not open file %s", dataset.data());
 	ErrMsgT(Msgt);
-	error = 1;
-	return false;
+	throw Error(cannot_read_file, "Could not open dataset.");
     }
   
     Pix p = first_dim();
@@ -161,8 +103,7 @@ MATArray::read(const string &dataset, int &error)
     if (DataPtr == NULL) {
 	sprintf(Msgt, "MATArray: Error reading matrix");
 	ErrMsgT(Msgt);
-	error = 1;
-	return false;
+	throw Error(unknown_error, Msgt);
     }  
 
     if(start+stop+stride == 0){ //default rows
@@ -196,3 +137,40 @@ MATArray::read(const string &dataset, int &error)
     matClose(fp);
     return false;
 }
+
+// $Log: MATArray.cc,v $
+// Revision 1.8  2000/10/10 00:03:07  jimg
+// Moved CVS Logs to the end of each file.
+// Added code to handle exceptions thrown by the dap library.
+// Added exceptions to the read methods.
+// Changed the definition of the read methods to match the dap library.
+//
+// Revision 1.7  1999/05/04 03:30:49  jimg
+// Merged no gnu changes
+//
+// Revision 1.6.4.2  1999/05/03 00:39:15  brent
+// convert String.h code to new standard lib <string>
+//
+// Revision 1.6.4.1  1999/04/09 05:29:00  brent
+// convert String.h code to new standard lib <string>
+//
+// Revision 1.6  1998/08/06 16:32:57  jimg
+// Fixed misuse of the read(...) member function. Return true if more data
+// is to be read, false is if not and error if an error is detected
+//
+// Revision 1.5  1997/05/01 18:30:59  jimg
+// Resurrected version 1.4's fix of the row-major -vs- column-major bug-fix.
+// Added a configuration header.
+//
+// Revision 1.4  1996/12/18 21:07:45  reza
+// Made array indices always consistent (i.e. Row, Column).
+//
+// Revision 1.3  1996/12/16 21:40:50  reza
+// *** empty log message ***
+//
+// Revision 1.2  1996/11/13 05:13:06  reza
+// Added complex matrix capability.
+//
+// Revision 1.1  1996/10/31 14:43:16  reza
+// First release of DODS-matlab servers.
+

@@ -5,16 +5,8 @@
 //
 // Authors: James Gallagher
 
-// $Log: MATInt16.h,v $
-// Revision 1.2  1999/05/04 03:30:50  jimg
-// Merged no gnu changes
-//
-// Revision 1.1  1999/03/29 19:21:44  jimg
-// Added
-//
-
-#ifndef _MATInt16_h
-#define _MATInt16_h 1
+#ifndef _matint16_h
+#define _matint16_h 1
 
 #ifdef __GNUG__
 #pragma interface
@@ -30,8 +22,22 @@ public:
 
     virtual BaseType *ptr_duplicate();
     
-    virtual bool read(const string &dataset, int &error);
+    virtual bool read(const string &dataset);
 };
+
+// $Log: MATInt16.h,v $
+// Revision 1.3  2000/10/10 00:03:07  jimg
+// Moved CVS Logs to the end of each file.
+// Added code to handle exceptions thrown by the dap library.
+// Added exceptions to the read methods.
+// Changed the definition of the read methods to match the dap library.
+//
+// Revision 1.2  1999/05/04 03:30:50  jimg
+// Merged no gnu changes
+//
+// Revision 1.1  1999/03/29 19:21:44  jimg
+// Added
+//
 
 #endif
 
