@@ -1,5 +1,5 @@
 
-# $Id: Makefile.in,v 1.19 1999/05/27 18:35:07 jimg Exp $
+# $Id: Makefile.in,v 1.20 1999/11/05 05:50:20 jimg Exp $
 
 @SET_MAKE@
 
@@ -51,7 +51,8 @@ INSTALLMAN = man
 SHELL = /bin/sh
 srcdir = @srcdir@
 version = @VERSION@
-dir = math-dods-@VERSION@
+basedir = math-dods
+dir = $(basedir)-$(version)
 
 COMPONENT_NAME = DODS Matlab Server
 
@@ -63,6 +64,8 @@ RUNTESTFLAGS= #--all --verbose
 
 LN_S = @LN_S@
 AWK = @AWK@
+TAR = @TAR@
+PERL = @PERL@
 CC = @CC@
 CXX = @CXX@
 YACC = @YACC@
@@ -90,6 +93,8 @@ SRVOBJS = mat_dods.o  MatLabUtil.o $(MATOBJ)
 
 XDRFILE	= @XDRFILE@
 
+ALLSRCS = $(SSRCS)
+
 .PHONY:	programs
 all: mat_das mat_dds mat_dods 
 
@@ -102,13 +107,19 @@ mat_dds:$(DDSOBJS)
 mat_dods:$(SRVOBJS) 
 	$(CXX) $(LDFLAGS) -o mat_dods $(SRVOBJS) $(LIBS)
 
-# Standard targets with some customization for das-test and dds-test
+configure: configure.in
+	autoconf --localdir=$(DODS_ROOT)/etc
 
-Makefile: ${srcdir}/Makefile.in
-	${SHELL} config.status
+Makefile: Makefile.in
+	if [ -x ./config.status ]; \
+	then \
+	    ${SHELL} ./config.status; \
+	else \
+	    ./configure; \
+	fi
 
 check:
-	echo "No tests"
+	@echo "No tests"
 
 test-coverage: clean
 	$(MAKE) $(MFLAGS) CXXFLAGS="$(CXXFLAGS) $(TEST_COV_FLAGS)" check
@@ -149,7 +160,7 @@ distclean:
 tar:
 	-rm -r config.cache config.log config.status
 	cd $(DODS_ROOT)/.. && \
-	tar --exclude '*/old' --exclude '*/.#*' --exclude '*/CVS' \
+	$(TAR) --exclude '*/old' --exclude '*/.#*' --exclude '*/CVS' \
 	    --gzip --create --dereference --file DODS-$(dir).tar.gz \
 	    DODS/src/$(dir)
 
@@ -186,9 +197,9 @@ check-version:
 tags:
 	$(TAGS) $(TAGS_FLAGS) *.cc *.h
 
+.PHONY: depend
 depend: 
-	@depend@ -- $(INCS) -I/usr/local/lib/g++-include -- $(SSRCS) $(CSRCS)
-
+	@depend@ -m Makefile.in -- $(CPPFLAGS) -- $(ALLSRCS)
 
 .SUFFIXES:      .o .cc .c
 
@@ -198,4 +209,94 @@ depend:
 .cc.o:
 	$(CXX) -c $(CXXFLAGS) $(CPPFLAGS) -o $@ $<
 
-# DO NOT DELETE THIS LINE -- make depend depends on it.
+# DO NOT DELETE; depend depends on this line.
+mat_das.o: mat_das.cc config_mat.h ../../include/DAS.h \
+ ../../include/SLList.h ../../include/AttrTable.h \
+ ../../include/config_dap.h ../../include/cgi_util.h \
+ ../../include/Connect.h ../../include/DDS.h ../../include/BaseType.h \
+ ../../include/Clause.h ../../include/expr.h ../../include/RValue.h \
+ ../../include/debug.h ../../include/Error.h ../../include/util.h \
+ ../../include/Byte.h ../../include/Int16.h ../../include/UInt16.h \
+ ../../include/Int32.h ../../include/UInt32.h ../../include/Float32.h \
+ ../../include/Float64.h ../../include/Str.h \
+ ../../include/dods-limits.h ../../include/Url.h ../../include/Array.h \
+ ../../include/Vector.h ../../include/List.h ../../include/Structure.h \
+ ../../include/Sequence.h ../../include/Grid.h \
+ ../../include/DODSFilter.h
+mat_dds.o: mat_dds.cc config_mat.h ../../include/DDS.h \
+ ../../include/config_dap.h ../../include/BaseType.h \
+ ../../include/Clause.h ../../include/expr.h ../../include/RValue.h \
+ ../../include/debug.h ../../include/cgi_util.h \
+ ../../include/Connect.h ../../include/DAS.h ../../include/AttrTable.h \
+ ../../include/Error.h ../../include/util.h ../../include/Byte.h \
+ ../../include/Int16.h ../../include/UInt16.h ../../include/Int32.h \
+ ../../include/UInt32.h ../../include/Float32.h \
+ ../../include/Float64.h ../../include/Str.h \
+ ../../include/dods-limits.h ../../include/Url.h ../../include/Array.h \
+ ../../include/Vector.h ../../include/List.h ../../include/Structure.h \
+ ../../include/Sequence.h ../../include/Grid.h \
+ ../../include/DODSFilter.h
+mat_dods.o: mat_dods.cc config_mat.h ../../include/cgi_util.h \
+ ../../include/config_dap.h ../../include/Connect.h \
+ ../../include/DAS.h ../../include/AttrTable.h ../../include/DDS.h \
+ ../../include/BaseType.h ../../include/Clause.h ../../include/expr.h \
+ ../../include/RValue.h ../../include/debug.h ../../include/Error.h \
+ ../../include/util.h ../../include/Byte.h ../../include/Int16.h \
+ ../../include/UInt16.h ../../include/Int32.h ../../include/UInt32.h \
+ ../../include/Float32.h ../../include/Float64.h ../../include/Str.h \
+ ../../include/dods-limits.h ../../include/Url.h ../../include/Array.h \
+ ../../include/Vector.h ../../include/List.h ../../include/Structure.h \
+ ../../include/Sequence.h ../../include/Grid.h \
+ ../../include/DODSFilter.h
+MATArray.o: MATArray.cc config_mat.h ../../include/cgi_util.h \
+ ../../include/config_dap.h ../../include/Connect.h \
+ ../../include/DAS.h ../../include/AttrTable.h ../../include/DDS.h \
+ ../../include/BaseType.h ../../include/Clause.h ../../include/expr.h \
+ ../../include/RValue.h ../../include/debug.h ../../include/Error.h \
+ ../../include/util.h ../../include/Byte.h ../../include/Int16.h \
+ ../../include/UInt16.h ../../include/Int32.h ../../include/UInt32.h \
+ ../../include/Float32.h ../../include/Float64.h ../../include/Str.h \
+ ../../include/dods-limits.h ../../include/Url.h ../../include/Array.h \
+ ../../include/Vector.h ../../include/List.h ../../include/Structure.h \
+ ../../include/Sequence.h ../../include/Grid.h MATArray.h \
+ /usr/local/matlab5/extern/include/mat.h \
+ /usr/local/matlab5/extern/include/matrix.h \
+ /usr/local/matlab5/extern/include/tmwtypes.h
+MATByte.o: MATByte.cc config_mat.h MATByte.h ../../include/Byte.h \
+ ../../include/BaseType.h ../../include/config_dap.h
+MATFloat64.o: MATFloat64.cc config_mat.h MATFloat64.h \
+ ../../include/Float64.h ../../include/BaseType.h \
+ ../../include/config_dap.h MatSeq.h
+MATGrid.o: MATGrid.cc config_mat.h MATGrid.h ../../include/Grid.h \
+ ../../include/BaseType.h ../../include/config_dap.h
+MATInt32.o: MATInt32.cc config_mat.h MATInt32.h ../../include/Int32.h \
+ ../../include/BaseType.h ../../include/config_dap.h
+MATList.o: MATList.cc config_mat.h MATList.h ../../include/List.h \
+ ../../include/dods-limits.h ../../include/Vector.h \
+ ../../include/BaseType.h ../../include/config_dap.h \
+ ../../include/DDS.h ../../include/Clause.h ../../include/expr.h \
+ ../../include/RValue.h ../../include/debug.h
+MATSequence.o: MATSequence.cc config_mat.h MATSequence.h \
+ ../../include/Sequence.h ../../include/BaseType.h \
+ ../../include/config_dap.h
+MATStr.o: MATStr.cc config_mat.h MATStr.h ../../include/Str.h \
+ ../../include/dods-limits.h ../../include/BaseType.h \
+ ../../include/config_dap.h MatSeq.h
+MATStructure.o: MATStructure.cc config_mat.h MATStructure.h \
+ ../../include/Structure.h ../../include/BaseType.h \
+ ../../include/config_dap.h ../../include/DDS.h ../../include/Clause.h \
+ ../../include/expr.h ../../include/RValue.h ../../include/debug.h
+MATUrl.o: MATUrl.cc config_mat.h MATUrl.h ../../include/Url.h \
+ ../../include/dods-limits.h ../../include/BaseType.h \
+ ../../include/config_dap.h ../../include/Str.h
+MATUInt32.o: MATUInt32.cc config_mat.h MATUInt32.h \
+ ../../include/UInt32.h ../../include/BaseType.h \
+ ../../include/config_dap.h
+MATInt16.o: MATInt16.cc config_mat.h MATInt16.h ../../include/Int16.h \
+ ../../include/BaseType.h ../../include/config_dap.h
+MATUInt16.o: MATUInt16.cc config_mat.h MATUInt16.h \
+ ../../include/UInt16.h ../../include/BaseType.h \
+ ../../include/config_dap.h
+MATFloat32.o: MATFloat32.cc config_mat.h MATFloat32.h \
+ ../../include/Float32.h ../../include/BaseType.h \
+ ../../include/config_dap.h
