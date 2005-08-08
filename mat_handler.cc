@@ -25,7 +25,7 @@
  
 #include "config_mat.h"
 
-static char rcsid[] not_used ={"$Id: mat_handler.cc,v 1.2 2003/12/08 18:09:05 edavis Exp $"};
+static char rcsid[] not_used ={"$Id$"};
 
 #include <iostream>
 #include <string>

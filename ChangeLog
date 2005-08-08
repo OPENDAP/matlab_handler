@@ -98,5 +98,5 @@ Tue Dec 30 15:59:46 1997  James Gallagher  <jimg@localhost>
 	class. This corrects problems with those program and the
 	DODS_Dispatch perl class.
 
-$Id: ChangeLog,v 1.13 2004/07/09 18:19:30 jimg Exp $
+$Id$
 

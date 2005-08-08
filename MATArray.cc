@@ -9,7 +9,7 @@
 
 #include "config_mat.h"
 
-static char rcsid[] not_used ={"$Id: MATArray.cc,v 1.10 2003/12/08 18:09:05 edavis Exp $"};
+static char rcsid[] not_used ={"$Id$"};
 
 #ifdef __GNUG__
 #pragma implementation
